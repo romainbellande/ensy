@@ -1,0 +1,11 @@
+version: '3'
+
+tasks:
+  nest:g:cl:
+    desc: generate class
+    dir: ./packages/api
+    cmds:
+     - nest g mo modules/{{ .name }}
+     - nest g cl {{ .name }}.entity modules/{{ .name }} --flat --no-spec
+     - nest g cl {{ .name }}.dto modules/{{ .name }} --flat --no-spec
+     - nest g cl {{ .name }}.create.dto modules/{{ .name }} --flat --no-spec

@@ -1,0 +1,85 @@
+version: "3.8"
+
+services:
+  traefik:
+    image: "traefik:v2.3"
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--providers.docker.useBindPortIP=true"
+      - "traefik.http.routers.traefik=true"
+      - "traefik.http.routers.traefik.entrypoints=https"
+    ports:
+      - "443:443"
+      - "80:80"
+      - "8080:8080"
+      - "8085:8085"
+    volumes:
+      - /run/user/1000/docker.sock:/var/run/docker.sock:ro
+      - ./traefik/traefik.yml:/etc/traefik/traefik.yml:ro
+      - ./traefik/config.yml:/etc/traefik/config.yml:ro
+      - ./traefik/certs:/etc/certs:ro
+
+  pg:
+    image: "postgres:15.2-alpine3.17"
+    environment:
+      POSTGRES_USER: pguser
+      POSTGRES_PASSWORD: pgpass
+      POSTGRES_DB: ${PROJECT_NAME}
+    ports:
+      - 5451:5432
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+
+  api:
+    build:
+      context: .
+      dockerfile: ./docker/node/Dockerfile
+    user: "${UID}:${GID}"
+    working_dir: /home/node
+    command: npm run serve api
+    restart: unless-stopped
+    environment:
+      NX_DATABASE_URL: postgres://pguser:pgpass@pg/${PROJECT_NAME}
+      NX_PORT: 9000
+      NODE_ENV: development
+      NX_TRACING_ENABLED: true
+      NX_TRACING_URL: http://jaeger:4318/v1/traces
+    ports:
+      - 8086:80
+    volumes:
+      - ./:/home/node
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.api.rule=Host(`api.${PROJECT_NAME}.localhost`)"
+      - "traefik.http.routers.api.entrypoints=http,https"
+      - 'traefik.http.services.api.loadbalancer.server.port=9000'
+      - "traefik.http.routers.api.tls=true"
+    depends_on:
+      - pg
+
+  jaeger:
+    image: jaegertracing/all-in-one:1.46.0
+    environment:
+      COLLECTOR_OTLP_ENABLED: true
+      LOG_LEVEL: debug
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.jaeger.rule=Host(`jaeger.${PROJECT_NAME}.localhost`)"
+      - 'traefik.http.services.jaeger.loadbalancer.server.port=16686'
+      - "traefik.http.routers.jaeger.entrypoints=http,https"
+      - "traefik.http.routers.jaeger.tls=true"
+
+  envsubst:
+    image: bhgedigital/envsubst
+    environment:
+      PROJECT_NAME: ${PROJECT_NAME}
+    volumes:
+      - ./:/wd
+
+volumes:
+  pg-data:
+  mkcert-data:
