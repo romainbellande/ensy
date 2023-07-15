@@ -7,9 +7,10 @@ import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Configuration, configuration, validationSchema } from '@api/configuration';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
-import { UserModule } from '@api/modules/user/user.module';
+import { UserModule } from '@api/app/modules/user/user.module';
 import { LoggerModule } from 'nestjs-pino';
 import { pinoLoggerFactory } from '@api/utils';
+import { ReferendumModule } from './modules/referendum/referendum.module';
 
 @Module({
   imports: [
@@ -42,7 +43,8 @@ import { pinoLoggerFactory } from '@api/utils';
       introspection: true,
       sortSchema: true,
     }),
-    UserModule
+    UserModule,
+    ReferendumModule
   ],
   controllers: [AppController],
   providers: [AppService],

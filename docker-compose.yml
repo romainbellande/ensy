@@ -34,6 +34,31 @@ services:
     volumes:
       - pg-data:/var/lib/postgresql/data
 
+  client:
+    build:
+      context: .
+      dockerfile: ./docker/node/Dockerfile
+    user: "${UID}:${GID}"
+    working_dir: /home/node
+    command: ./docker/wait-for-it.sh api:9000 -t 240 -s -- npm run serve client
+    restart: unless-stopped
+    environment:
+      NX_TEST: true
+      NODE_ENV: development
+      NX_API_URL: https://api.${PROJECT_NAME}.localhost/api
+      NX_ENVIRONMENT: local
+    volumes:
+      - ./:/home/node
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.client.rule=Host(`${PROJECT_NAME}.localhost`)"
+      - "traefik.http.routers.client.entrypoints=http,https"
+      - 'traefik.http.services.client.loadbalancer.server.port=9000'
+      - "traefik.http.routers.client.tls=true"
+
+    depends_on:
+      - api
+
   api:
     build:
       context: .

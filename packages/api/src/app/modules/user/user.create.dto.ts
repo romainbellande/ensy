@@ -1,9 +1,8 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
-import { UserDto } from './user.dto';
 
 @InputType('CreateUser')
-export class UserCreateDto implements Omit<UserDto, 'id' | 'createdAt' | 'updatedAt'> {
+export class UserCreateDto {
   @Field()
   @IsString()
   @IsNotEmpty()

@@ -5,9 +5,9 @@ import { BaseEntity } from '@api/utils';
 import {
   Entity,
 } from 'typeorm';
-import { <%= h.changeCase.capitalCase(name) %>Dto } from './<%=name%>.dto';
+import { Create<%= h.changeCase.title(name) %> } from './<%=name%>.create.dto';
 
-@Entity()
-export class <%= h.changeCase.capitalCase(name) %>Entity extends BaseEntity implements <%= h.changeCase.capitalCase(name) %>Dto {
+@Entity('<%= h.changeCase.title(name) %>')
+export class <%= h.changeCase.title(name) %>Entity extends BaseEntity implements Create<%= h.changeCase.title(name) %> {
 
 }
