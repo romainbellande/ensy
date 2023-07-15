@@ -3,6 +3,7 @@ version: '3'
 dotenv: ['.env']
 
 includes:
+  client: ./packages/client
   api: ./packages/api
 
 tasks:

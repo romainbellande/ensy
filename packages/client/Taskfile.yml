@@ -1,0 +1,12 @@
+version: '3'
+
+tasks:
+  shadcn:add:
+    desc: add shadcn component
+    cmds:
+      - pnpm dlx shadcn-ui@latest add {{ .name }} -c ./packages/client
+
+  graphql:codegen:
+    desc: generate graphql code
+    cmds:
+      - pnpm dlx graphql-codegen --config ./packages/client/codegen.ts
