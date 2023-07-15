@@ -3,7 +3,7 @@ import { useRoutes } from 'react-router-dom';
 import { Header, SideNav } from '@client/components';
 import { routes } from '@client/routes';
 
-const Layout: FC = () => {
+export const Layout: FC = () => {
   const routeElement = useRoutes(routes);
 
   return (
@@ -16,5 +16,3 @@ const Layout: FC = () => {
     </div>
   );
 };
-
-export default Layout;

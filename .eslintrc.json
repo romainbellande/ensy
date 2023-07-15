@@ -1,7 +1,7 @@
 {
   "root": true,
   "ignorePatterns": ["**/*"],
-  "plugins": ["@nx", "unused-imports"],
+  "plugins": ["@nx", "unused-imports", "prettier"],
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
@@ -32,7 +32,16 @@
         ],
         "eol-last": ["error", "always"],
         "no-trailing-spaces": "error",
-        "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 0 }]
+        "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 0 }],
+        "prettier/prettier": [
+          "warn",
+          {
+            "tabWidth": 2,
+            "printWidth": 80,
+            "singleQuote": true,
+            "trailingComma": "es5"
+          }
+        ]
       }
     },
     {
