@@ -9,8 +9,7 @@
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/packages/client",
-        "styles": ["packages/loyalty/src/styles.scss"]
+        "outputPath": "dist/packages/client"
       },
       "configurations": {
         "development": {

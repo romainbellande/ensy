@@ -1,11 +1,15 @@
+const { createGlobPatternsForDependencies } = require('@nx/react/tailwind');
+const { join } = require('path');
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: ['class'],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
+    join(__dirname, './index.html'),
+    join(
+      __dirname,
+      '{src,pages,components,app}/**/*!(*.stories|*.spec).{ts,tsx,html}'
+    ),
+    ...createGlobPatternsForDependencies(__dirname),
   ],
   theme: {
     container: {
@@ -16,6 +20,10 @@ module.exports = {
       },
     },
     extend: {
+      boxShadow: {
+        xss: '0 8px 30px rgba(0,0,0,.05)!important',
+        xs: '0 .5rem 1rem rgba(0,0,0,.03)!important',
+      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',

@@ -6,7 +6,7 @@ const Home: FC = () => {
     console.log('values :>> ', values);
   };
   return (
-    <div>
+    <div className="flex justify-center items-center flex-grow">
       <GroupForm onSubmit={onSubmit} />
     </div>
   );
