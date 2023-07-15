@@ -6,7 +6,7 @@ tasks:
     cmds:
       - pnpm dlx shadcn-ui@latest add {{ .name }} -c ./packages/client
 
-  graphql:codegen:
+  graphql:gen:
     desc: generate graphql code
     cmds:
-      - pnpm dlx graphql-codegen --config ./packages/client/codegen.ts
+      - ./node_modules/.bin/graphql-codegen --config ./packages/client/codegen.ts

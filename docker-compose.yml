@@ -74,7 +74,7 @@ services:
       NX_TRACING_ENABLED: true
       NX_TRACING_URL: http://jaeger:4318/v1/traces
     ports:
-      - 8086:80
+      - 8086:9000
     volumes:
       - ./:/home/node
     labels:
