@@ -1,18 +1,16 @@
-import { lazy } from 'react';
-
 import { Route, Routes } from 'react-router-dom';
-const Layout = lazy(() => import('../components/Layout'));
+import { Layout } from '@client/components';
 
 export function App() {
   return (
     <Routes>
-    <Route
-      path="/*"
-      element={
-          <Layout />
-      }
-    />
-  </Routes>
+      <Route
+        path="/*"
+        element={
+            <Layout />
+        }
+      />
+    </Routes>
   );
 }
 

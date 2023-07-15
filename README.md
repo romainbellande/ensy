@@ -6,8 +6,9 @@
 
 ## How this project has been setup
 
-- `npx create-nx-workspace@latest ensy --preset=ts --packageManager=pnpm && cd ensy`
+- `pnpm dlx create-nx-workspace@latest ensy --preset=ts --packageManager=pnpm && cd ensy`
 - `pnpm install -D @nx/react @nx/nest @commitlint/cli @commitlint/config-conventional husky`
 - `nx g @nx/react:app client`
 - `nx g @nx/react:setup-tailwind --project=client`
 - `nx g @nx/nest:app api `
+- `pnpm dlx shadcn-ui@latest init -c ./packages/client`
