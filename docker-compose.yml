@@ -45,7 +45,7 @@ services:
     environment:
       NX_TEST: true
       NODE_ENV: development
-      NX_API_URL: https://api.${PROJECT_NAME}.localhost/api
+      NX_GRAPHQL_ENDPOINT: https://api.${PROJECT_NAME}.localhost/graphql
       NX_ENVIRONMENT: local
     volumes:
       - ./:/home/node

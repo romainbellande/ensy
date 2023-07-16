@@ -1,6 +1,6 @@
 import { graphql } from '@client/gql/gql';
 
-export const findReferendums = graphql(`
+graphql(`
   query FindReferendums {
     referendums {
       edges {

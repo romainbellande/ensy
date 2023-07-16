@@ -1,23 +1,53 @@
-/* eslint-disable */
-import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
+import { configuration } from '@client/configuration';
+import { useQuery, UseQueryOptions } from '@tanstack/react-query';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
-export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>;
+};
+export type MakeEmpty<
+  T extends { [key: string]: unknown },
+  K extends keyof T,
+> = { [_ in K]?: never };
+export type Incremental<T> =
+  | T
+  | {
+      [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never;
+    };
+
+function fetcher<TData, TVariables>(query: string, variables?: TVariables) {
+  return async (): Promise<TData> => {
+    const res = await fetch(configuration.graphqlEndpoint as string, {
+      method: 'POST',
+      body: JSON.stringify({ query, variables }),
+    });
+
+    const json = await res.json();
+
+    if (json.errors) {
+      const { message } = json.errors[0];
+
+      throw new Error(message);
+    }
+
+    return json.data;
+  };
+}
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string; }
-  String: { input: string; output: string; }
-  Boolean: { input: boolean; output: boolean; }
-  Int: { input: number; output: number; }
-  Float: { input: number; output: number; }
-  /** Cursor for paging through collections */
-  ConnectionCursor: { input: any; output: any; }
-  /** A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format. */
-  DateTime: { input: any; output: any; }
+  ID: { input: string; output: string };
+  String: { input: string; output: string };
+  Boolean: { input: boolean; output: boolean };
+  Int: { input: number; output: number };
+  Float: { input: number; output: number };
+  ConnectionCursor: { input: string; output: string };
+  DateTime: { input: Date; output: Date };
 };
 
 export type CreateManyReferendumsInput = {
@@ -131,61 +161,49 @@ export type Mutation = {
   updateOneUser: User;
 };
 
-
 export type MutationCreateManyReferendumsArgs = {
   input: CreateManyReferendumsInput;
 };
-
 
 export type MutationCreateManyUsersArgs = {
   input: CreateManyUsersInput;
 };
 
-
 export type MutationCreateOneReferendumArgs = {
   input: CreateOneReferendumInput;
 };
-
 
 export type MutationCreateOneUserArgs = {
   input: CreateOneUserInput;
 };
 
-
 export type MutationDeleteManyReferendumsArgs = {
   input: DeleteManyReferendumsInput;
 };
-
 
 export type MutationDeleteManyUsersArgs = {
   input: DeleteManyUsersInput;
 };
 
-
 export type MutationDeleteOneReferendumArgs = {
   input: DeleteOneReferendumInput;
 };
-
 
 export type MutationDeleteOneUserArgs = {
   input: DeleteOneUserInput;
 };
 
-
 export type MutationUpdateManyReferendumsArgs = {
   input: UpdateManyReferendumsInput;
 };
-
 
 export type MutationUpdateManyUsersArgs = {
   input: UpdateManyUsersInput;
 };
 
-
 export type MutationUpdateOneReferendumArgs = {
   input: UpdateOneReferendumInput;
 };
-
 
 export type MutationUpdateOneUserArgs = {
   input: UpdateOneUserInput;
@@ -211,11 +229,9 @@ export type Query = {
   users: UserConnection;
 };
 
-
 export type QueryReferendumArgs = {
   id: Scalars['ID']['input'];
 };
-
 
 export type QueryReferendumsArgs = {
   filter?: ReferendumFilter;
@@ -223,11 +239,9 @@ export type QueryReferendumsArgs = {
   sorting?: Array<ReferendumSort>;
 };
 
-
 export type QueryUserArgs = {
   id: Scalars['ID']['input'];
 };
-
 
 export type QueryUsersArgs = {
   filter?: UserFilter;
@@ -241,6 +255,7 @@ export type Referendum = {
   createdAt: Scalars['DateTime']['output'];
   description: Scalars['String']['output'];
   endDate: Scalars['DateTime']['output'];
+  finalVote?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
   /** referendum participants */
@@ -250,6 +265,7 @@ export type Referendum = {
   question: Scalars['String']['output'];
   slug: Scalars['String']['output'];
   startDate?: Maybe<Scalars['DateTime']['output']>;
+  status: ReferendumStatus;
   updatedAt: Scalars['DateTime']['output'];
 };
 
@@ -275,6 +291,7 @@ export type ReferendumDeleteResponse = {
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   description?: Maybe<Scalars['String']['output']>;
   endDate?: Maybe<Scalars['DateTime']['output']>;
+  finalVote?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['ID']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   /** referendum participants */
@@ -284,6 +301,7 @@ export type ReferendumDeleteResponse = {
   question?: Maybe<Scalars['String']['output']>;
   slug?: Maybe<Scalars['String']['output']>;
   startDate?: Maybe<Scalars['DateTime']['output']>;
+  status?: Maybe<ReferendumStatus>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
 
@@ -306,7 +324,7 @@ export type ReferendumFilter = {
 export enum ReferendumParticipants {
   All = 'All',
   ByName = 'ByName',
-  ByRole = 'ByRole'
+  ByRole = 'ByRole',
 }
 
 export type ReferendumSort = {
@@ -318,7 +336,13 @@ export type ReferendumSort = {
 export enum ReferendumSortFields {
   Id = 'id',
   Name = 'name',
-  Slug = 'slug'
+  Slug = 'slug',
+}
+
+export enum ReferendumStatus {
+  Closed = 'Closed',
+  InProgress = 'InProgress',
+  NoStarted = 'NoStarted',
 }
 
 export type ReferendumUpdateFilter = {
@@ -332,13 +356,13 @@ export type ReferendumUpdateFilter = {
 /** Sort Directions */
 export enum SortDirection {
   Asc = 'ASC',
-  Desc = 'DESC'
+  Desc = 'DESC',
 }
 
 /** Sort Nulls Options */
 export enum SortNulls {
   NullsFirst = 'NULLS_FIRST',
-  NullsLast = 'NULLS_LAST'
+  NullsLast = 'NULLS_LAST',
 }
 
 export type StringFieldComparison = {
@@ -397,6 +421,7 @@ export type UpdateReferendum = {
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   endDate?: InputMaybe<Scalars['DateTime']['input']>;
+  finalVote?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['ID']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   /** referendum participants */
@@ -406,6 +431,7 @@ export type UpdateReferendum = {
   question?: InputMaybe<Scalars['String']['input']>;
   slug?: InputMaybe<Scalars['String']['input']>;
   startDate?: InputMaybe<Scalars['DateTime']['input']>;
+  status?: InputMaybe<ReferendumStatus>;
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
@@ -479,7 +505,7 @@ export type UserSort = {
 export enum UserSortFields {
   Email = 'email',
   Id = 'id',
-  Name = 'name'
+  Name = 'name',
 }
 
 export type UserUpdateFilter = {
@@ -490,10 +516,61 @@ export type UserUpdateFilter = {
   or?: InputMaybe<Array<UserUpdateFilter>>;
 };
 
-export type FindReferendumsQueryVariables = Exact<{ [key: string]: never; }>;
+export type FindReferendumsQueryVariables = Exact<{ [key: string]: never }>;
 
+export type FindReferendumsQuery = {
+  __typename?: 'Query';
+  referendums: {
+    __typename?: 'ReferendumConnection';
+    edges: Array<{
+      __typename?: 'ReferendumEdge';
+      node: {
+        __typename?: 'Referendum';
+        answers: Array<string>;
+        createdAt: Date;
+        description: string;
+        endDate: Date;
+        id: string;
+        name: string;
+        startDate?: Date | null;
+        slug: string;
+      };
+    }>;
+  };
+};
 
-export type FindReferendumsQuery = { __typename?: 'Query', referendums: { __typename?: 'ReferendumConnection', edges: Array<{ __typename?: 'ReferendumEdge', node: { __typename?: 'Referendum', answers: Array<string>, createdAt: any, description: string, endDate: any, id: string, name: string, startDate?: any | null, slug: string } }> } };
-
-
-export const FindReferendumsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"FindReferendums"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"referendums"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"answers"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"endDate"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"startDate"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}}]}}]}}]}}]}}]} as unknown as DocumentNode<FindReferendumsQuery, FindReferendumsQueryVariables>;
+export const FindReferendumsDocument = `
+    query FindReferendums {
+  referendums {
+    edges {
+      node {
+        answers
+        createdAt
+        description
+        endDate
+        id
+        name
+        startDate
+        slug
+      }
+    }
+  }
+}
+    `;
+export const useFindReferendumsQuery = <
+  TData = FindReferendumsQuery,
+  TError = unknown,
+>(
+  variables?: FindReferendumsQueryVariables,
+  options?: UseQueryOptions<FindReferendumsQuery, TError, TData>
+) =>
+  useQuery<FindReferendumsQuery, TError, TData>(
+    variables === undefined
+      ? ['FindReferendums']
+      : ['FindReferendums', variables],
+    fetcher<FindReferendumsQuery, FindReferendumsQueryVariables>(
+      FindReferendumsDocument,
+      variables
+    ),
+    options
+  );

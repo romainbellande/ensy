@@ -1,16 +1,17 @@
 import { BaseEntity } from '@api/utils';
-import {
-  Column,
-  Entity,
-} from 'typeorm';
+import { Column, Entity } from 'typeorm';
 import { ReferendumParticipants } from './referendum-participants.enum';
 import { Field, ObjectType } from '@nestjs/graphql';
 import { FilterableField } from '@ptc-org/nestjs-query-graphql';
 import { ReferendumCreateDto } from './referendum.create.dto';
+import { ReferendumStatus } from './referendum-status.enum';
 
 @Entity('Referendum')
 @ObjectType('Referendum')
-export class ReferendumEntity extends BaseEntity  implements ReferendumCreateDto {
+export class ReferendumEntity
+  extends BaseEntity
+  implements ReferendumCreateDto
+{
   @Column()
   @FilterableField()
   name: string;
@@ -33,7 +34,11 @@ export class ReferendumEntity extends BaseEntity  implements ReferendumCreateDto
   })
   answers: string[];
 
-  @Column({ type: 'enum', enum: ReferendumParticipants, default: ReferendumParticipants.All })
+  @Column({
+    type: 'enum',
+    enum: ReferendumParticipants,
+    default: ReferendumParticipants.All,
+  })
   @Field(() => ReferendumParticipants, {
     description: 'referendum participants',
   })
@@ -52,10 +57,16 @@ export class ReferendumEntity extends BaseEntity  implements ReferendumCreateDto
   participantsRoles: string[];
 
   @Column({ type: 'timestamp', default: 'NOW()' })
-  @Field(() => Date, { nullable: true })
+  @Field({ nullable: true })
   startDate?: Date;
 
   @Column({ type: 'timestamp' })
-  @Field(() => Date)
+  @Field()
   endDate!: Date;
+
+  @Field(() => String, { nullable: true })
+  finalVote?: string;
+
+  @Field(() => ReferendumStatus)
+  status: ReferendumStatus;
 }
