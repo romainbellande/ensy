@@ -1,10 +1,11 @@
 import { BaseEntity } from '@api/utils';
 import { Column, Entity } from 'typeorm';
-import { ReferendumParticipants } from './referendum-participants.enum';
+import { ReferendumParticipantsKind } from './referendum-participants-kind.enum';
 import { Field, ObjectType } from '@nestjs/graphql';
 import { FilterableField } from '@ptc-org/nestjs-query-graphql';
 import { ReferendumCreateDto } from './referendum.create.dto';
 import { ReferendumStatus } from './referendum-status.enum';
+import { ReferendumAnswerKind } from './referendum-answer-kind.enum';
 
 @Entity('Referendum')
 @ObjectType('Referendum')
@@ -36,13 +37,22 @@ export class ReferendumEntity
 
   @Column({
     type: 'enum',
-    enum: ReferendumParticipants,
-    default: ReferendumParticipants.All,
+    enum: ReferendumAnswerKind,
   })
-  @Field(() => ReferendumParticipants, {
-    description: 'referendum participants',
+  @Field(() => ReferendumAnswerKind, {
+    description: 'referendum answer kind',
   })
-  participants: ReferendumParticipants = ReferendumParticipants.All;
+  answerKind: ReferendumAnswerKind;
+
+  @Column({
+    type: 'enum',
+    enum: ReferendumParticipantsKind,
+    default: ReferendumParticipantsKind.All,
+  })
+  @Field(() => ReferendumParticipantsKind, {
+    description: 'referendum participants kind',
+  })
+  participantsKind: ReferendumParticipantsKind = ReferendumParticipantsKind.All;
 
   @Column({ type: 'simple-array', default: '' })
   @Field(() => [String], {

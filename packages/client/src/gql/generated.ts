@@ -25,6 +25,7 @@ function fetcher<TData, TVariables>(query: string, variables?: TVariables) {
   return async (): Promise<TData> => {
     const res = await fetch(configuration.graphqlEndpoint as string, {
       method: 'POST',
+      ...{ headers: { 'Content-Type': 'application/json' } },
       body: JSON.stringify({ query, variables }),
     });
 
@@ -71,13 +72,15 @@ export type CreateOneUserInput = {
 };
 
 export type CreateReferendum = {
+  /** referendum answer kind */
+  answerKind: ReferendumAnswerKind;
   answers?: Array<Scalars['String']['input']>;
   description: Scalars['String']['input'];
   endDate: Scalars['DateTime']['input'];
   name: Scalars['String']['input'];
-  /** referendum participants */
-  participants: ReferendumParticipants;
   participantsExternalIds?: Array<Scalars['String']['input']>;
+  /** referendum participants */
+  participantsKind: ReferendumParticipantsKind;
   participantsRoles?: Array<Scalars['String']['input']>;
   question: Scalars['String']['input'];
   slug: Scalars['String']['input'];
@@ -251,6 +254,8 @@ export type QueryUsersArgs = {
 
 export type Referendum = {
   __typename?: 'Referendum';
+  /** referendum answer kind */
+  answerKind: ReferendumAnswerKind;
   answers: Array<Scalars['String']['output']>;
   createdAt: Scalars['DateTime']['output'];
   description: Scalars['String']['output'];
@@ -258,9 +263,9 @@ export type Referendum = {
   finalVote?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
-  /** referendum participants */
-  participants: ReferendumParticipants;
   participantsExternalIds: Array<Scalars['String']['output']>;
+  /** referendum participants kind */
+  participantsKind: ReferendumParticipantsKind;
   participantsRoles: Array<Scalars['String']['output']>;
   question: Scalars['String']['output'];
   slug: Scalars['String']['output'];
@@ -268,6 +273,11 @@ export type Referendum = {
   status: ReferendumStatus;
   updatedAt: Scalars['DateTime']['output'];
 };
+
+export enum ReferendumAnswerKind {
+  Multiple = 'Multiple',
+  YesNo = 'YesNo',
+}
 
 export type ReferendumConnection = {
   __typename?: 'ReferendumConnection';
@@ -287,6 +297,8 @@ export type ReferendumDeleteFilter = {
 
 export type ReferendumDeleteResponse = {
   __typename?: 'ReferendumDeleteResponse';
+  /** referendum answer kind */
+  answerKind?: Maybe<ReferendumAnswerKind>;
   answers?: Maybe<Array<Scalars['String']['output']>>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   description?: Maybe<Scalars['String']['output']>;
@@ -294,9 +306,9 @@ export type ReferendumDeleteResponse = {
   finalVote?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['ID']['output']>;
   name?: Maybe<Scalars['String']['output']>;
-  /** referendum participants */
-  participants?: Maybe<ReferendumParticipants>;
   participantsExternalIds?: Maybe<Array<Scalars['String']['output']>>;
+  /** referendum participants kind */
+  participantsKind?: Maybe<ReferendumParticipantsKind>;
   participantsRoles?: Maybe<Array<Scalars['String']['output']>>;
   question?: Maybe<Scalars['String']['output']>;
   slug?: Maybe<Scalars['String']['output']>;
@@ -321,7 +333,7 @@ export type ReferendumFilter = {
   slug?: InputMaybe<StringFieldComparison>;
 };
 
-export enum ReferendumParticipants {
+export enum ReferendumParticipantsKind {
   All = 'All',
   ByName = 'ByName',
   ByRole = 'ByRole',
@@ -417,6 +429,8 @@ export type UpdateOneUserInput = {
 };
 
 export type UpdateReferendum = {
+  /** referendum answer kind */
+  answerKind?: InputMaybe<ReferendumAnswerKind>;
   answers?: InputMaybe<Array<Scalars['String']['input']>>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
@@ -424,9 +438,9 @@ export type UpdateReferendum = {
   finalVote?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['ID']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
-  /** referendum participants */
-  participants?: InputMaybe<ReferendumParticipants>;
   participantsExternalIds?: InputMaybe<Array<Scalars['String']['input']>>;
+  /** referendum participants kind */
+  participantsKind?: InputMaybe<ReferendumParticipantsKind>;
   participantsRoles?: InputMaybe<Array<Scalars['String']['input']>>;
   question?: InputMaybe<Scalars['String']['input']>;
   slug?: InputMaybe<Scalars['String']['input']>;

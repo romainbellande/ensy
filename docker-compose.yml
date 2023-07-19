@@ -43,10 +43,10 @@ services:
     command: ./docker/wait-for-it.sh api:9000 -t 240 -s -- npm run serve client
     restart: unless-stopped
     environment:
-      NX_TEST: true
+      VITE_TEST: true
       NODE_ENV: development
-      NX_GRAPHQL_ENDPOINT: https://api.${PROJECT_NAME}.localhost/graphql
-      NX_ENVIRONMENT: local
+      VITE_GRAPHQL_ENDPOINT: https://api.${PROJECT_NAME}.localhost/graphql
+      VITE_ENVIRONMENT: local
     volumes:
       - ./:/home/node
     labels:

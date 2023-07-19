@@ -19,12 +19,13 @@ export class ReferendumAssembler extends ClassTransformerAssembler<
 
   getStatus(dto: ReferendumEntity): ReferendumStatus {
     const currentDate = new Date();
+
     if (!dto.startDate || currentDate < dto.startDate) {
       return ReferendumStatus.NoStarted;
     } else if (currentDate < dto.endDate) {
       return ReferendumStatus.InProgress;
-    } else {
-      return ReferendumStatus.Closed;
     }
+
+    return ReferendumStatus.Closed;
   }
 }

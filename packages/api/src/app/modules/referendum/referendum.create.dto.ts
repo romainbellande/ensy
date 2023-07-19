@@ -1,6 +1,13 @@
 import { InputType, Field } from '@nestjs/graphql';
-import { ReferendumParticipants } from './referendum-participants.enum';
-import { IsNotEmpty, IsEnum, IsISO8601, IsOptional, IsString } from 'class-validator';
+import { ReferendumParticipantsKind } from './referendum-participants-kind.enum';
+import {
+  IsNotEmpty,
+  IsEnum,
+  IsISO8601,
+  IsOptional,
+  IsString,
+} from 'class-validator';
+import { ReferendumAnswerKind } from './referendum-answer-kind.enum';
 
 @InputType('CreateReferendum')
 export class ReferendumCreateDto {
@@ -32,11 +39,17 @@ export class ReferendumCreateDto {
   @IsOptional()
   answers: string[] = [];
 
-  @Field(() => ReferendumParticipants, {
+  @Field(() => ReferendumAnswerKind, {
+    description: 'referendum answer kind',
+  })
+  @IsEnum(ReferendumParticipantsKind)
+  answerKind: ReferendumAnswerKind;
+
+  @Field(() => ReferendumParticipantsKind, {
     description: 'referendum participants',
   })
-  @IsEnum(ReferendumParticipants)
-  participants: ReferendumParticipants;
+  @IsEnum(ReferendumParticipantsKind)
+  participantsKind: ReferendumParticipantsKind;
 
   @Field(() => [String], {
     defaultValue: [],
@@ -54,7 +67,7 @@ export class ReferendumCreateDto {
 
   @Field({
     description: 'starting date',
-    defaultValue: new Date()
+    defaultValue: new Date(),
   })
   @IsISO8601()
   @IsOptional()

@@ -5,7 +5,9 @@ import { RequestDocument } from 'graphql-request';
 import { TypedDocumentNode } from '@graphql-typed-document-node/core';
 import { VariablesAndRequestHeadersArgs } from 'graphql-request/build/esm/types';
 
-export const graphqlClient = new GraphQLClient(configuration.graphqlEndpoint);
+export const graphqlClient = new GraphQLClient(configuration.graphqlEndpoint, {
+  headers: { 'Content-Type': 'application/json' },
+});
 
 export const useGraphqlRequest = () => {
   return useCallback(
