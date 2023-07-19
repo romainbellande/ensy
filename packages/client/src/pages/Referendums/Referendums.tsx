@@ -4,8 +4,9 @@ import {
 } from '@client/components/Referendum';
 import { FC, useMemo } from 'react';
 import { useFindReferendumsQuery } from '@client/gql/generated';
+import { ReferendumForm } from '@client/components/Referendum/ReferendumForm/ReferendumForm';
 
-export const Referendum: FC = () => {
+const Referendums: FC = () => {
   const { data } = useFindReferendumsQuery();
   const referendums = useMemo<FindReferendumNode[]>(() => {
     if (data?.referendums) {
@@ -15,9 +16,19 @@ export const Referendum: FC = () => {
     }
   }, [data]);
 
+  const onSubmit = (values) => {
+    console.log('values :>> ', values);
+  };
+
   return (
-    <div className="flex justify-center items-center flex-grow">
-      <ReferendumList data={referendums} />
+    <div className="flex-grow">
+      {referendums.length > 0 ? (
+        <ReferendumList data={referendums} />
+      ) : (
+        <ReferendumForm onSubmit={onSubmit} />
+      )}
     </div>
   );
 };
+
+export default Referendums;

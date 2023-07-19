@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { Card, CardContent, CardTitle } from '../ui/card';
+import { Link } from 'react-router-dom';
 
 export const SideNav: FC = () => {
   return (
@@ -8,7 +9,12 @@ export const SideNav: FC = () => {
         <CardTitle>main menu</CardTitle>
         <CardContent>
           <ul>
-            <li>home</li>
+            <li>
+              <Link to="/">home</Link>
+            </li>
+            <li>
+              <Link to="/referendums">referendums</Link>
+            </li>
           </ul>
         </CardContent>
       </Card>

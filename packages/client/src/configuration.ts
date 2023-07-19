@@ -3,5 +3,7 @@ interface Configuration {
 }
 
 export const configuration: Configuration = {
-  graphqlEndpoint: process.env.NX_GRAPHQL_ENDPOINT || '',
+  graphqlEndpoint: import.meta.env.VITE_GRAPHQL_ENDPOINT || '',
 };
+
+console.log('configuration :>> ', configuration);

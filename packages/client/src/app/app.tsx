@@ -4,12 +4,7 @@ import { Layout } from '@client/components';
 export function App() {
   return (
     <Routes>
-      <Route
-        path="/*"
-        element={
-            <Layout />
-        }
-      />
+      <Route path="/*" element={<Layout />} />
     </Routes>
   );
 }

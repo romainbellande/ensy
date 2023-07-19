@@ -12,3 +12,7 @@
 - `nx g @nx/react:setup-tailwind --project=client`
 - `nx g @nx/nest:app api `
 - `pnpm dlx shadcn-ui@latest init -c ./packages/client`
+
+## References
+
+- [sociala](http://uitheme.net/sociala/default.html)
