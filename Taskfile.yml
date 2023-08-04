@@ -28,3 +28,8 @@ tasks:
     desc: initialize traefik configuration
     cmds:
       - docker compose run envsubst sh -c "envsubst < /wd/traefik/config.example.yml > /wd/traefik/config.yml"
+
+  lint:fix:
+    desc: fix lint for all applications
+    cmds:
+      - pnpm nx run-many --all --target=lint --fix

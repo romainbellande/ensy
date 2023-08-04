@@ -5,3 +5,4 @@ export * from './ThemedSuspense';
 export * from './GroupForm';
 export * from './Field';
 export * from './RadioGroupField';
+export * from './SelectField';
