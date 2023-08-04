@@ -5,7 +5,11 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { Configuration, configuration, validationSchema } from '@api/configuration';
+import {
+  Configuration,
+  configuration,
+  validationSchema,
+} from '@api/configuration';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { UserModule } from '@api/app/modules/user/user.module';
 import { LoggerModule } from 'nestjs-pino';
@@ -33,7 +37,7 @@ import { ReferendumModule } from './modules/referendum/referendum.module';
         synchronize: true,
         logging: configService.get('logLevel'),
       }),
-      inject: [ConfigService]
+      inject: [ConfigService],
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
@@ -44,7 +48,7 @@ import { ReferendumModule } from './modules/referendum/referendum.module';
       sortSchema: true,
     }),
     UserModule,
-    ReferendumModule
+    ReferendumModule,
   ],
   controllers: [AppController],
   providers: [AppService],

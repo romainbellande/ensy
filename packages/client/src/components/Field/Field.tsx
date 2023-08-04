@@ -13,6 +13,7 @@ import {
   Path,
 } from 'react-hook-form';
 import { Textarea } from '../ui/textarea';
+import { useTranslation } from 'react-i18next';
 
 type FieldType = 'text' | 'date' | 'datetime-local' | 'textarea';
 
@@ -53,13 +54,15 @@ export const Field = <
   required = false,
   type = 'text',
 }: Props<TFieldValues, TContext>) => {
+  const { t } = useTranslation();
+
   return (
     <FormField
       control={control}
       name={name}
       render={({ field }) => (
         <FormItem>
-          <FormLabel required={required}>{label || name}</FormLabel>
+          {label && <FormLabel required={required}>{t(label)}</FormLabel>}
           <FormControl>
             <FieldRenderer field={field} type={type} />
           </FormControl>

@@ -1,8 +1,5 @@
 import { BaseEntity } from '@api/utils';
-import {
-  Column,
-  Entity,
-} from 'typeorm';
+import { Column, Entity } from 'typeorm';
 import { Field, ObjectType } from '@nestjs/graphql';
 import { FilterableField } from '@ptc-org/nestjs-query-graphql';
 import { UserCreateDto } from './user.create.dto';

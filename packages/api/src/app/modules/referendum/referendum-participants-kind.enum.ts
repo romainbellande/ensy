@@ -2,7 +2,7 @@ import { registerEnumType } from '@nestjs/graphql';
 
 export enum ReferendumParticipantsKind {
   All = 'All',
-  ByName = 'ByName',
+  ByEmail = 'ByEmail',
   ByRole = 'ByRole',
 }
 

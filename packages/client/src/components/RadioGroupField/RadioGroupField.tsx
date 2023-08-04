@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import {
   FormField,
   FormItem,
@@ -32,13 +33,15 @@ export const RadioGroupField = <
   label,
   items,
 }: Props<TFieldValues, TContext>) => {
+  const { t } = useTranslation();
+
   return (
     <FormField
       control={control}
       name={name}
       render={({ field }) => (
         <FormItem className="space-y-3">
-          {label && <FormLabel>{label}:</FormLabel>}
+          {label && <FormLabel>{t(label)}:</FormLabel>}
           <FormControl>
             <RadioGroup
               onValueChange={field.onChange as never}
@@ -53,7 +56,7 @@ export const RadioGroupField = <
                   <FormControl>
                     <RadioGroupItem value={value} />
                   </FormControl>
-                  <FormLabel htmlFor="option-two">{text}</FormLabel>
+                  <FormLabel htmlFor="option-two">{t(text)}</FormLabel>
                 </FormItem>
               ))}
             </RadioGroup>

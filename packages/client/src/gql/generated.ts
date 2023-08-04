@@ -335,7 +335,7 @@ export type ReferendumFilter = {
 
 export enum ReferendumParticipantsKind {
   All = 'All',
-  ByName = 'ByName',
+  ByEmail = 'ByEmail',
   ByRole = 'ByRole',
 }
 
