@@ -15,6 +15,7 @@ import { Tracing } from './utils/tracing';
 async function bootstrap() {
   const tracing = new Tracing(configuration().tracing);
   tracing.start();
+
   const app = await NestFactory.create(AppModule, {
     cors: true,
   });

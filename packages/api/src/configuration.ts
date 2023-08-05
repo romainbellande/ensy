@@ -26,11 +26,16 @@ export const validationSchema = Joi.object({
   }),
   NX_TRACING_ENABLED: Joi.boolean().default(false),
   NX_HOST_URL: Joi.string().ip({ version: 'ipv4' }).default('0.0.0.0'),
+  NX_AUTH_ISSUER: Joi.string().uri({ scheme: ['https'] }),
 });
 
 export interface TracingConfiguration {
   url: string;
   enabled: boolean;
+}
+
+export interface AuthConfiguration {
+  issuer: string;
 }
 
 export interface Configuration {
@@ -40,6 +45,7 @@ export interface Configuration {
   isProduction: boolean;
   logLevel: Level;
   tracing: TracingConfiguration;
+  auth: AuthConfiguration;
 }
 
 export const configuration = (): Configuration => ({
@@ -51,5 +57,8 @@ export const configuration = (): Configuration => ({
   tracing: {
     url: process.env.NX_TRACING_URL,
     enabled: process.env.NX_TRACING_ENABLED === 'true',
+  },
+  auth: {
+    issuer: process.env.NX_AUTH_ISSUER,
   },
 });

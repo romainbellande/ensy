@@ -1,5 +1,5 @@
-import { configuration } from '@client/configuration';
 import { useQuery, UseQueryOptions } from '@tanstack/react-query';
+import { useFetchData } from 'packages/client/src/gql/fetcher';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = {
@@ -20,26 +20,6 @@ export type Incremental<T> =
   | {
       [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never;
     };
-
-function fetcher<TData, TVariables>(query: string, variables?: TVariables) {
-  return async (): Promise<TData> => {
-    const res = await fetch(configuration.graphqlEndpoint as string, {
-      method: 'POST',
-      ...{ headers: { 'Content-Type': 'application/json' } },
-      body: JSON.stringify({ query, variables }),
-    });
-
-    const json = await res.json();
-
-    if (json.errors) {
-      const { message } = json.errors[0];
-
-      throw new Error(message);
-    }
-
-    return json.data;
-  };
-}
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string };
@@ -582,9 +562,8 @@ export const useFindReferendumsQuery = <
     variables === undefined
       ? ['FindReferendums']
       : ['FindReferendums', variables],
-    fetcher<FindReferendumsQuery, FindReferendumsQueryVariables>(
-      FindReferendumsDocument,
-      variables
-    ),
+    useFetchData<FindReferendumsQuery, FindReferendumsQueryVariables>(
+      FindReferendumsDocument
+    ).bind(null, variables),
     options
   );
