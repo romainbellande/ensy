@@ -22,12 +22,8 @@ const config: CodegenConfig = {
           },
         },
         fetcher: {
-          endpoint: 'configuration.graphqlEndpoint',
-          fetchParams: {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          },
+          func: `${basedir}/gql/fetcher#useFetchData`,
+          isReactHook: true,
         },
       },
       plugins: [

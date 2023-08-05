@@ -47,6 +47,9 @@ services:
       NODE_ENV: development
       VITE_GRAPHQL_ENDPOINT: https://api.${PROJECT_NAME}.localhost/graphql
       VITE_ENVIRONMENT: local
+      VITE_AUTH_DOMAIN: dev-3hklrs-3.eu.auth0.com
+      VITE_AUTH_CLIENT_ID: b0C0eiWLzv2BcdL95o1RbnLD8pSvEXvy
+      VITE_AUTH_AUDIENCE: http://api.kune.localhost
     volumes:
       - ./:/home/node
     labels:
@@ -73,6 +76,7 @@ services:
       NODE_ENV: development
       NX_TRACING_ENABLED: true
       NX_TRACING_URL: http://jaeger:4318/v1/traces
+      NX_AUTH_ISSUER: https://dev-3hklrs-3.eu.auth0.com
     ports:
       - 8086:9000
     volumes:

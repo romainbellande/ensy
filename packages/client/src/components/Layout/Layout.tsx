@@ -1,12 +1,23 @@
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 import { useRoutes } from 'react-router-dom';
 import { Header, SideNav, ThemedSuspense } from '@client/components';
 import { routes } from '@client/routes';
 import styles from './Layout.module.scss';
 import { cn } from '@client/lib/utils';
+import { useAuth0, withAuthenticationRequired } from '@auth0/auth0-react';
 
-export const Layout: FC = () => {
+const LayoutBase: FC = () => {
   const routeElement = useRoutes(routes);
+  const { error, getAccessTokenSilently } = useAuth0();
+
+  useMemo(async () => {
+    const token = await getAccessTokenSilently();
+    console.log('token :>> ', token);
+  }, [getAccessTokenSilently]);
+
+  if (error) {
+    return <div>Oops... {error.message}</div>;
+  }
 
   return (
     <div>
@@ -23,3 +34,5 @@ export const Layout: FC = () => {
     </div>
   );
 };
+
+export const Layout = withAuthenticationRequired(LayoutBase);

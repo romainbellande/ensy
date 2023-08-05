@@ -15,6 +15,8 @@ import { UserModule } from '@api/app/modules/user/user.module';
 import { LoggerModule } from 'nestjs-pino';
 import { pinoLoggerFactory } from '@api/utils';
 import { ReferendumModule } from './modules/referendum/referendum.module';
+import { APP_GUARD } from '@nestjs/core';
+import { Auth0Guard } from '@api/guards';
 
 @Module({
   imports: [
@@ -51,6 +53,12 @@ import { ReferendumModule } from './modules/referendum/referendum.module';
     ReferendumModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: Auth0Guard,
+    },
+  ],
 })
 export class AppModule {}
