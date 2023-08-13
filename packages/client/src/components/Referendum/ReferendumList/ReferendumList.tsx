@@ -18,6 +18,8 @@ import { FindReferendumNode } from './find-referendum-node';
 import { PlusCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Card } from '@client/components/ui/card';
+import { useTranslation } from 'react-i18next';
+import { useColumns } from '@client/lib/use-columns';
 
 interface Props {
   data: FindReferendumNode[];
@@ -25,16 +27,21 @@ interface Props {
 }
 
 export const ReferendumList: FC<Props> = ({ data }) => {
+  const { t } = useTranslation();
+  const formColumns = useColumns(columns);
+
   const table = useReactTable({
     data,
-    columns,
+    columns: formColumns,
     getCoreRowModel: getCoreRowModel(),
   });
 
   return (
     <Card className="flex flex-col justify-center flex-grow p-8">
       <h3 className="text-left text-2xl py-4 flex space-x-4 items-center">
-        <span className="capitalize-first ">referendums</span>
+        <span className="capitalize-first ">
+          {t('domains.referendum.referendums')}
+        </span>
         <Link to="/referendums/create">
           <PlusCircle className="text-blue-600 cursor-pointer" size={16} />
         </Link>
@@ -74,8 +81,11 @@ export const ReferendumList: FC<Props> = ({ data }) => {
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
+              <TableCell
+                colSpan={columns.length}
+                className="h-24 text-center capitalize-first"
+              >
+                {t('shared.noResults')}.
               </TableCell>
             </TableRow>
           )}

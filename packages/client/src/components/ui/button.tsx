@@ -54,6 +54,10 @@ const ButtonChild: FC<ButtonChild> = ({ children, icon }) => {
   }
 
   if (icon) {
+    if (!children) {
+      return icon;
+    }
+
     return (
       <>
         {icon}

@@ -1,5 +1,4 @@
 import { lazy } from 'react';
-import { suspenseRouteWrapper } from '@client/lib/suspense-route-wrapper';
 import type { RouteObject } from 'react-router-dom';
 import { CreateReferendum } from '@client/pages/Referendums/CreateReferendum';
 
@@ -29,4 +28,4 @@ export const routes: RouteObject[] = [
       },
     ],
   },
-].map(suspenseRouteWrapper);
+];

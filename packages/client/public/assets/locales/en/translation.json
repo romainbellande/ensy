@@ -1,7 +1,12 @@
 {
   "pages": {},
+  "router": {
+    "referendums": "referendums",
+    "create" : "create"
+  },
   "domains": {
     "referendum": {
+      "referendums": "referendums",
       "fields": {
         "status": {
           "NotStarted": "not started",
@@ -34,6 +39,7 @@
     }
   },
   "shared": {
+    "noResults": "no results",
     "submit": "submit",
     "roles": {
       "member": "member",

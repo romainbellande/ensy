@@ -5,6 +5,8 @@ import { routes } from '@client/routes';
 import styles from './Layout.module.scss';
 import { cn } from '@client/lib/utils';
 import { useAuth0, withAuthenticationRequired } from '@auth0/auth0-react';
+import { ErrorBoundary } from 'react-error-boundary';
+import { Page } from '../Page';
 
 const LayoutBase: FC = () => {
   const routeElement = useRoutes(routes);
@@ -29,7 +31,11 @@ const LayoutBase: FC = () => {
           styles.main
         )}
       >
-        <ThemedSuspense>{routeElement}</ThemedSuspense>
+        <ErrorBoundary fallback={<div>Something went wrong</div>}>
+          <ThemedSuspense>
+            <Page>{routeElement}</Page>
+          </ThemedSuspense>
+        </ErrorBoundary>
       </div>
     </div>
   );
