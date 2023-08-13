@@ -5,7 +5,10 @@ const basedir = 'packages/client/src';
 const config: CodegenConfig = {
   overwrite: true,
   ignoreNoDocuments: true, // for better experience with the watcher
-  documents: [`${basedir}/operations/**/*.ts`],
+  documents: [
+    `${basedir}/operations/**/*.ts`,
+    `${basedir}/operations/**/*.graphql`,
+  ],
   generates: {
     [`${basedir}/gql/generated.ts`]: {
       schema: 'http://127.0.0.1:8086/graphql',

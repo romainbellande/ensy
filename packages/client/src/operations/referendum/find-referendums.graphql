@@ -1,6 +1,3 @@
-import { graphql } from '@client/gql/gql';
-
-graphql(`
   query FindReferendums {
     referendums {
       edges {
@@ -13,8 +10,8 @@ graphql(`
           name
           startDate
           slug
+          status
         }
       }
     }
   }
-`);
