@@ -15,9 +15,13 @@ import {
 } from '@client/components/ui/table';
 import { columns } from './columns';
 import { FindReferendumNode } from './find-referendum-node';
+import { PlusCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Card } from '@client/components/ui/card';
 
 interface Props {
   data: FindReferendumNode[];
+  onAdd?: () => void;
 }
 
 export const ReferendumList: FC<Props> = ({ data }) => {
@@ -28,8 +32,13 @@ export const ReferendumList: FC<Props> = ({ data }) => {
   });
 
   return (
-    <div className="flex justify-center items-center flex-grow">
-      <h3 className="capitalize-first">referendum</h3>
+    <Card className="flex flex-col justify-center flex-grow p-8">
+      <h3 className="text-left text-2xl py-4 flex space-x-4 items-center">
+        <span className="capitalize-first ">referendums</span>
+        <Link to="/referendums/create">
+          <PlusCircle className="text-blue-600 cursor-pointer" size={16} />
+        </Link>
+      </h3>
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -72,6 +81,6 @@ export const ReferendumList: FC<Props> = ({ data }) => {
           )}
         </TableBody>
       </Table>
-    </div>
+    </Card>
   );
 };

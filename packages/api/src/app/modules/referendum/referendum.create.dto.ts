@@ -3,9 +3,9 @@ import { ReferendumParticipantsKind } from './referendum-participants-kind.enum'
 import {
   IsNotEmpty,
   IsEnum,
-  IsISO8601,
   IsOptional,
   IsString,
+  IsDate,
 } from 'class-validator';
 import { ReferendumAnswerKind } from './referendum-answer-kind.enum';
 
@@ -21,10 +21,10 @@ export class ReferendumCreateDto {
   @IsNotEmpty()
   slug: string;
 
-  @Field()
+  @Field({ nullable: true })
   @IsString()
-  @IsNotEmpty()
-  description: string;
+  @IsOptional()
+  description?: string;
 
   @Field()
   @IsString()
@@ -42,7 +42,7 @@ export class ReferendumCreateDto {
   @Field(() => ReferendumAnswerKind, {
     description: 'referendum answer kind',
   })
-  @IsEnum(ReferendumParticipantsKind)
+  @IsEnum(ReferendumAnswerKind)
   answerKind: ReferendumAnswerKind;
 
   @Field(() => ReferendumParticipantsKind, {
@@ -69,11 +69,11 @@ export class ReferendumCreateDto {
     description: 'starting date',
     defaultValue: new Date(),
   })
-  @IsISO8601()
+  @IsDate()
   @IsOptional()
   startDate?: Date;
 
   @Field()
-  @IsISO8601()
+  @IsDate()
   endDate: Date;
 }

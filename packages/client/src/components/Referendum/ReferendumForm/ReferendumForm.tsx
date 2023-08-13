@@ -1,7 +1,7 @@
 import { FC, useEffect } from 'react';
 import { Button } from '@client/components/ui/button';
 import { Form } from '@client/components/ui/form';
-import { useFieldArray, useForm } from 'react-hook-form';
+import { useFieldArray, useForm, useWatch } from 'react-hook-form';
 import { Card, CardContent, CardFooter } from '@client/components/ui/card';
 import { Field } from '@client/components/Field';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -21,28 +21,10 @@ import {
   SelectField,
   SelectFieldItemProps,
 } from '@client/components/SelectField';
-
-const formSchema = yup.object({
-  name: yup.string().min(2).max(50),
-  startDate: yup.string().required(),
-  endDate: yup.string(),
-  question: yup.string().min(2).max(50),
-  description: yup.string().min(2).max(500).optional(),
-  answerKind: yup.string().oneOf(Object.values(ReferendumAnswerKind)),
-  participantsKind: yup
-    .string()
-    .oneOf(Object.values(ReferendumParticipantsKind)),
-  answers: yup
-    .array()
-    .of(yup.object({ value: yup.string().required() }))
-    .required(),
-  roles: yup
-    .array()
-    .of(yup.object({ value: yup.string().required() }))
-    .required(),
-  selectedRole: yup.string().ensure(),
-  participants: yup.array().of(yup.string().required()).optional(),
-});
+import { referendumTransformer } from './referendum.transformer';
+import slugify from 'slugify';
+import { useCreateOneReferendumMutation } from '@client/gql/generated';
+import { formSchema } from './form-schema';
 
 const answerKindItems: RadioGroupItemProps[] = Object.values(
   ReferendumAnswerKind
@@ -77,10 +59,6 @@ const rolesItems: SelectFieldItemProps[] = [
 
 export type ReferendumFormValues = yup.InferType<typeof formSchema>;
 
-interface Props {
-  onSubmit: (values: ReferendumFormValues) => void;
-}
-
 const getTodayDateTime = (): string => {
   const now = new Date();
   now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
@@ -89,20 +67,33 @@ const getTodayDateTime = (): string => {
   return now.toISOString().slice(0, -1);
 };
 
-export const ReferendumForm: FC<Props> = ({ onSubmit }) => {
+export const ReferendumForm: FC = () => {
+  const { mutateAsync } = useCreateOneReferendumMutation();
+
+  const onSubmit = async (values: ReferendumFormValues) => {
+    try {
+      const referendum = referendumTransformer(values);
+      await mutateAsync({ input: { referendum } });
+    } catch (error) {
+      console.error(`[create referendum] ${JSON.stringify(error)}`);
+    }
+  };
+
   const form = useForm({
     resolver: yupResolver(formSchema),
     defaultValues: {
       name: '',
       startDate: getTodayDateTime(),
+      endDate: getTodayDateTime(),
       question: '',
       description: '',
       answerKind: ReferendumAnswerKind.YesNo,
       participantsKind: ReferendumParticipantsKind.All,
       answers: [],
-      roles: [],
+      participantsRoles: [],
       selectedRole: 'member',
-      participants: [],
+      participantsExternalIds: [],
+      slug: '',
     },
   });
 
@@ -116,8 +107,14 @@ export const ReferendumForm: FC<Props> = ({ onSubmit }) => {
 
   const rolesField = useFieldArray({
     control: form.control,
-    name: 'roles',
+    name: 'participantsRoles',
   });
+
+  const name = useWatch({ name: 'name', control: form.control });
+
+  useEffect(() => {
+    form.setValue('slug', slugify(name));
+  }, [name, form]);
 
   const answerKind = form.watch('answerKind');
 
@@ -133,11 +130,11 @@ export const ReferendumForm: FC<Props> = ({ onSubmit }) => {
 
   useEffect(() => {
     if (participantsKind !== ReferendumParticipantsKind.ByEmail) {
-      form.setValue('participants', []);
+      form.setValue('participantsExternalIds', []);
     }
 
     if (participantsKind !== ReferendumParticipantsKind.ByRole) {
-      form.setValue('roles', [{ value: 'admin' }]);
+      form.setValue('participantsRoles', [{ value: 'admin' }]);
     }
   }, [form, participantsKind]);
 
@@ -157,10 +154,15 @@ export const ReferendumForm: FC<Props> = ({ onSubmit }) => {
               />
               <Field
                 control={form.control}
-                name="question"
-                label="components.ReferendumForm.question"
+                name="slug"
+                label="components.ReferendumForm.slug"
               />
             </div>
+            <Field
+              control={form.control}
+              name="question"
+              label="components.ReferendumForm.question"
+            />
             <div className="flex space-x-4">
               <Field
                 control={form.control}
@@ -232,7 +234,7 @@ export const ReferendumForm: FC<Props> = ({ onSubmit }) => {
                   rolesField.fields.map((_, index) => (
                     <div key={uuidv4()} className="flex items-center space-x-4">
                       <SelectField
-                        name={`roles.${index}.value`}
+                        name={`participantsRoles.${index}.value`}
                         control={form.control}
                         items={rolesItems}
                       />

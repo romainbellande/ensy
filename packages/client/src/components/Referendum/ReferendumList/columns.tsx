@@ -1,6 +1,21 @@
-import { ColumnDef } from '@tanstack/react-table';
+import { CellContext, ColumnDef, RowData } from '@tanstack/react-table';
 import { FindReferendumNode } from './find-referendum-node';
-//
+import * as dayjs from 'dayjs';
+import { ReferendumStatus } from '@client/gql/generated';
+import { useTranslation } from 'react-i18next';
+
+const referendumStatusTranslation = (value: ReferendumStatus): string =>
+  `domains.referendum.fields.status.${value}`;
+
+const StatusCell = <TData extends RowData, TValue = unknown>({
+  getValue,
+}: CellContext<TData, TValue>) => {
+  const { t } = useTranslation();
+  const value = getValue<ReferendumStatus>();
+  const translatedValue = referendumStatusTranslation(value);
+  return t(translatedValue);
+};
+
 export const columns: ColumnDef<FindReferendumNode>[] = [
   {
     accessorKey: 'name',
@@ -13,13 +28,26 @@ export const columns: ColumnDef<FindReferendumNode>[] = [
   {
     accessorKey: 'status',
     header: 'status',
+    cell: (props) => {
+      return <StatusCell {...props} />;
+    },
   },
   {
     accessorKey: 'startDate',
     header: 'start date',
+    cell: ({ getValue }) => {
+      const value = getValue<string>();
+      const formattedValue = dayjs(value).format('DD MMM YYYY HH:mm');
+      return formattedValue;
+    },
   },
   {
     accessorKey: 'endDate',
     header: 'end date',
+    cell: ({ getValue }) => {
+      const value = getValue<string>();
+      const formattedValue = dayjs(value).format('DD MMM YYYY HH:mm');
+      return formattedValue;
+    },
   },
 ];

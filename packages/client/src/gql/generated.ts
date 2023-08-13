@@ -1,34 +1,22 @@
-import { useQuery, UseQueryOptions } from '@tanstack/react-query';
+import { configuration } from '@client/configuration';
+import { useMutation, useQuery, UseMutationOptions, UseQueryOptions } from '@tanstack/react-query';
 import { useFetchData } from 'packages/client/src/gql/fetcher';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = {
-  [K in keyof T]: T[K];
-};
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]?: Maybe<T[SubKey]>;
-};
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]: Maybe<T[SubKey]>;
-};
-export type MakeEmpty<
-  T extends { [key: string]: unknown },
-  K extends keyof T,
-> = { [_ in K]?: never };
-export type Incremental<T> =
-  | T
-  | {
-      [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never;
-    };
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string };
-  String: { input: string; output: string };
-  Boolean: { input: boolean; output: boolean };
-  Int: { input: number; output: number };
-  Float: { input: number; output: number };
-  ConnectionCursor: { input: string; output: string };
-  DateTime: { input: Date; output: Date };
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
+  ConnectionCursor: { input: string; output: string; }
+  DateTime: { input: Date; output: Date; }
 };
 
 export type CreateManyReferendumsInput = {
@@ -55,7 +43,7 @@ export type CreateReferendum = {
   /** referendum answer kind */
   answerKind: ReferendumAnswerKind;
   answers?: Array<Scalars['String']['input']>;
-  description: Scalars['String']['input'];
+  description?: InputMaybe<Scalars['String']['input']>;
   endDate: Scalars['DateTime']['input'];
   name: Scalars['String']['input'];
   participantsExternalIds?: Array<Scalars['String']['input']>;
@@ -144,49 +132,61 @@ export type Mutation = {
   updateOneUser: User;
 };
 
+
 export type MutationCreateManyReferendumsArgs = {
   input: CreateManyReferendumsInput;
 };
+
 
 export type MutationCreateManyUsersArgs = {
   input: CreateManyUsersInput;
 };
 
+
 export type MutationCreateOneReferendumArgs = {
   input: CreateOneReferendumInput;
 };
+
 
 export type MutationCreateOneUserArgs = {
   input: CreateOneUserInput;
 };
 
+
 export type MutationDeleteManyReferendumsArgs = {
   input: DeleteManyReferendumsInput;
 };
+
 
 export type MutationDeleteManyUsersArgs = {
   input: DeleteManyUsersInput;
 };
 
+
 export type MutationDeleteOneReferendumArgs = {
   input: DeleteOneReferendumInput;
 };
+
 
 export type MutationDeleteOneUserArgs = {
   input: DeleteOneUserInput;
 };
 
+
 export type MutationUpdateManyReferendumsArgs = {
   input: UpdateManyReferendumsInput;
 };
+
 
 export type MutationUpdateManyUsersArgs = {
   input: UpdateManyUsersInput;
 };
 
+
 export type MutationUpdateOneReferendumArgs = {
   input: UpdateOneReferendumInput;
 };
+
 
 export type MutationUpdateOneUserArgs = {
   input: UpdateOneUserInput;
@@ -212,9 +212,11 @@ export type Query = {
   users: UserConnection;
 };
 
+
 export type QueryReferendumArgs = {
   id: Scalars['ID']['input'];
 };
+
 
 export type QueryReferendumsArgs = {
   filter?: ReferendumFilter;
@@ -222,9 +224,11 @@ export type QueryReferendumsArgs = {
   sorting?: Array<ReferendumSort>;
 };
 
+
 export type QueryUserArgs = {
   id: Scalars['ID']['input'];
 };
+
 
 export type QueryUsersArgs = {
   filter?: UserFilter;
@@ -238,14 +242,14 @@ export type Referendum = {
   answerKind: ReferendumAnswerKind;
   answers: Array<Scalars['String']['output']>;
   createdAt: Scalars['DateTime']['output'];
-  description: Scalars['String']['output'];
+  description?: Maybe<Scalars['String']['output']>;
   endDate: Scalars['DateTime']['output'];
   finalVote?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
   participantsExternalIds: Array<Scalars['String']['output']>;
   /** referendum participants kind */
-  participantsKind: ReferendumParticipantsKind;
+  participantsKind?: Maybe<ReferendumParticipantsKind>;
   participantsRoles: Array<Scalars['String']['output']>;
   question: Scalars['String']['output'];
   slug: Scalars['String']['output'];
@@ -256,7 +260,7 @@ export type Referendum = {
 
 export enum ReferendumAnswerKind {
   Multiple = 'Multiple',
-  YesNo = 'YesNo',
+  YesNo = 'YesNo'
 }
 
 export type ReferendumConnection = {
@@ -316,7 +320,7 @@ export type ReferendumFilter = {
 export enum ReferendumParticipantsKind {
   All = 'All',
   ByEmail = 'ByEmail',
-  ByRole = 'ByRole',
+  ByRole = 'ByRole'
 }
 
 export type ReferendumSort = {
@@ -328,13 +332,13 @@ export type ReferendumSort = {
 export enum ReferendumSortFields {
   Id = 'id',
   Name = 'name',
-  Slug = 'slug',
+  Slug = 'slug'
 }
 
 export enum ReferendumStatus {
   Closed = 'Closed',
   InProgress = 'InProgress',
-  NoStarted = 'NoStarted',
+  NoStarted = 'NoStarted'
 }
 
 export type ReferendumUpdateFilter = {
@@ -348,13 +352,13 @@ export type ReferendumUpdateFilter = {
 /** Sort Directions */
 export enum SortDirection {
   Asc = 'ASC',
-  Desc = 'DESC',
+  Desc = 'DESC'
 }
 
 /** Sort Nulls Options */
 export enum SortNulls {
   NullsFirst = 'NULLS_FIRST',
-  NullsLast = 'NULLS_LAST',
+  NullsLast = 'NULLS_LAST'
 }
 
 export type StringFieldComparison = {
@@ -499,7 +503,7 @@ export type UserSort = {
 export enum UserSortFields {
   Email = 'email',
   Id = 'id',
-  Name = 'name',
+  Name = 'name'
 }
 
 export type UserUpdateFilter = {
@@ -510,29 +514,35 @@ export type UserUpdateFilter = {
   or?: InputMaybe<Array<UserUpdateFilter>>;
 };
 
-export type FindReferendumsQueryVariables = Exact<{ [key: string]: never }>;
+export type CreateOneReferendumMutationVariables = Exact<{
+  input: CreateOneReferendumInput;
+}>;
 
-export type FindReferendumsQuery = {
-  __typename?: 'Query';
-  referendums: {
-    __typename?: 'ReferendumConnection';
-    edges: Array<{
-      __typename?: 'ReferendumEdge';
-      node: {
-        __typename?: 'Referendum';
-        answers: Array<string>;
-        createdAt: Date;
-        description: string;
-        endDate: Date;
-        id: string;
-        name: string;
-        startDate?: Date | null;
-        slug: string;
-      };
-    }>;
-  };
-};
 
+export type CreateOneReferendumMutation = { __typename?: 'Mutation', createOneReferendum: { __typename?: 'Referendum', id: string } };
+
+export type FindReferendumsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FindReferendumsQuery = { __typename?: 'Query', referendums: { __typename?: 'ReferendumConnection', edges: Array<{ __typename?: 'ReferendumEdge', node: { __typename?: 'Referendum', answers: Array<string>, createdAt: Date, description?: string | null, endDate: Date, id: string, name: string, startDate?: Date | null, slug: string, status: ReferendumStatus } }> } };
+
+
+export const CreateOneReferendumDocument = `
+    mutation CreateOneReferendum($input: CreateOneReferendumInput!) {
+  createOneReferendum(input: $input) {
+    id
+  }
+}
+    `;
+export const useCreateOneReferendumMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<CreateOneReferendumMutation, TError, CreateOneReferendumMutationVariables, TContext>) =>
+    useMutation<CreateOneReferendumMutation, TError, CreateOneReferendumMutationVariables, TContext>(
+      ['CreateOneReferendum'],
+      useFetchData<CreateOneReferendumMutation, CreateOneReferendumMutationVariables>(CreateOneReferendumDocument),
+      options
+    );
 export const FindReferendumsDocument = `
     query FindReferendums {
   referendums {
@@ -546,24 +556,21 @@ export const FindReferendumsDocument = `
         name
         startDate
         slug
+        status
       }
     }
   }
 }
     `;
 export const useFindReferendumsQuery = <
-  TData = FindReferendumsQuery,
-  TError = unknown,
->(
-  variables?: FindReferendumsQueryVariables,
-  options?: UseQueryOptions<FindReferendumsQuery, TError, TData>
-) =>
-  useQuery<FindReferendumsQuery, TError, TData>(
-    variables === undefined
-      ? ['FindReferendums']
-      : ['FindReferendums', variables],
-    useFetchData<FindReferendumsQuery, FindReferendumsQueryVariables>(
-      FindReferendumsDocument
-    ).bind(null, variables),
-    options
-  );
+      TData = FindReferendumsQuery,
+      TError = unknown
+    >(
+      variables?: FindReferendumsQueryVariables,
+      options?: UseQueryOptions<FindReferendumsQuery, TError, TData>
+    ) =>
+    useQuery<FindReferendumsQuery, TError, TData>(
+      variables === undefined ? ['FindReferendums'] : ['FindReferendums', variables],
+      useFetchData<FindReferendumsQuery, FindReferendumsQueryVariables>(FindReferendumsDocument).bind(null, variables),
+      options
+    );

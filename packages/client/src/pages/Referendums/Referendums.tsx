@@ -8,6 +8,7 @@ import { ReferendumForm } from '@client/components/Referendum/ReferendumForm/Ref
 
 const Referendums: FC = () => {
   const { data } = useFindReferendumsQuery();
+
   const referendums = useMemo<FindReferendumNode[]>(() => {
     if (data?.referendums) {
       return data?.referendums.edges.map((edge) => edge.node);
@@ -16,16 +17,12 @@ const Referendums: FC = () => {
     }
   }, [data]);
 
-  const onSubmit = (values) => {
-    console.log('values :>> ', values);
-  };
-
   return (
     <div className="flex-grow">
       {referendums.length > 0 ? (
         <ReferendumList data={referendums} />
       ) : (
-        <ReferendumForm onSubmit={onSubmit} />
+        <ReferendumForm />
       )}
     </div>
   );

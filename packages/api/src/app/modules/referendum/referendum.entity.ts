@@ -1,5 +1,5 @@
 import { BaseEntity } from '@api/utils';
-import { Column, Entity } from 'typeorm';
+import { AfterLoad, Column, Entity } from 'typeorm';
 import { ReferendumParticipantsKind } from './referendum-participants-kind.enum';
 import { Field, ObjectType } from '@nestjs/graphql';
 import { FilterableField } from '@ptc-org/nestjs-query-graphql';
@@ -22,8 +22,8 @@ export class ReferendumEntity
   slug: string;
 
   @Column()
-  @Field()
-  description: string;
+  @Field({ nullable: true })
+  description?: string;
 
   @Column()
   @Field()
@@ -51,6 +51,7 @@ export class ReferendumEntity
   })
   @Field(() => ReferendumParticipantsKind, {
     description: 'referendum participants kind',
+    nullable: true,
   })
   participantsKind: ReferendumParticipantsKind = ReferendumParticipantsKind.All;
 
@@ -79,4 +80,21 @@ export class ReferendumEntity
 
   @Field(() => ReferendumStatus)
   status: ReferendumStatus;
+
+  @AfterLoad()
+  afterLoad() {
+    this.status = this.getStatus();
+  }
+
+  private getStatus(): ReferendumStatus {
+    const currentDate = new Date();
+
+    if (!this.startDate || currentDate < this.startDate) {
+      return ReferendumStatus.NoStarted;
+    } else if (currentDate < this.endDate) {
+      return ReferendumStatus.InProgress;
+    }
+
+    return ReferendumStatus.Closed;
+  }
 }
