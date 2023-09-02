@@ -1,0 +1,138 @@
+version: '3'
+
+services:
+  traefik:
+    image: "traefik:v2.3"
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--providers.docker.useBindPortIP=true"
+      - "traefik.http.routers.traefik=true"
+      - "traefik.http.routers.traefik.entrypoints=https"
+    ports:
+      - "443:443"
+      - "80:80"
+      - "8080:8080"
+      - "8085:8085"
+    volumes:
+      - /run/user/1000/docker.sock:/var/run/docker.sock:ro
+      - ./traefik/traefik.yml:/etc/traefik/traefik.yml:ro
+      - ./traefik/config.yml:/etc/traefik/config.yml:ro
+      - ./traefik/certs:/etc/certs:ro
+
+  pg:
+    image: "postgres:15.2-alpine3.17"
+    environment:
+      POSTGRES_USER: pguser
+      POSTGRES_PASSWORD: pgpass
+      POSTGRES_DB: ${PROJECT_NAME}
+    ports:
+      - 5459:5432
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+
+
+  client:
+    build:
+      context: .
+      dockerfile: ./docker/node/Dockerfile
+    user: "${UID}:${GID}"
+    working_dir: /home/node
+    command: ./docker/wait-for-it.sh api:9000 -t 240 -s -- pnpm dlx turbo dev --filter client
+    restart: unless-stopped
+    environment:
+      VITE_TEST: true
+      NODE_ENV: development
+      VITE_GRAPHQL_ENDPOINT: https://api.${PROJECT_NAME}.localhost/graphql
+      VITE_ENVIRONMENT: local
+      VITE_AUTH_DOMAIN: dev-3hklrs-3.eu.auth0.com
+      VITE_AUTH_CLIENT_ID: b0C0eiWLzv2BcdL95o1RbnLD8pSvEXvy
+      VITE_AUTH_AUDIENCE: http://api.kune.localhost
+    volumes:
+      - ./:/home/node
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.client.rule=Host(`${PROJECT_NAME}.localhost`)"
+      - "traefik.http.routers.client.entrypoints=http,https"
+      - 'traefik.http.services.client.loadbalancer.server.port=5137'
+      - "traefik.http.routers.client.tls=true"
+
+    depends_on:
+      - api
+
+  api:
+    build:
+      context: .
+      dockerfile: ./docker/node/Dockerfile
+    user: "${UID}:${GID}"
+    working_dir: /home/node
+    command: pnpm dlx turbo dev --filter api
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+      API_DATABASE_URL: postgres://pguser:pgpass@pg/${PROJECT_NAME}
+      API_PORT: 9000
+      API_TRACING_ENABLED: true
+      API_TRACING_URL: http://jaeger:4318/v1/traces
+      API_AUTH_ISSUER: https://dev-3hklrs-3.eu.auth0.com
+      API_LOG_LEVEL: log
+    ports:
+      - 8086:9000
+    volumes:
+      - ./:/home/node
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.api.rule=Host(`api.${PROJECT_NAME}.localhost`)"
+      - "traefik.http.routers.api.entrypoints=http,https"
+      - 'traefik.http.services.api.loadbalancer.server.port=9000'
+      - "traefik.http.routers.api.tls=true"
+    depends_on:
+      - pg
+
+  jaeger:
+    image: jaegertracing/all-in-one:1.46.0
+    environment:
+      COLLECTOR_OTLP_ENABLED: true
+      LOG_LEVEL: debug
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.jaeger.rule=Host(`jaeger.${PROJECT_NAME}.localhost`)"
+      - 'traefik.http.services.jaeger.loadbalancer.server.port=16686'
+      - "traefik.http.routers.jaeger.entrypoints=http,https"
+      - "traefik.http.routers.jaeger.tls=true"
+
+  envsubst:
+    image: bhgedigital/envsubst
+    environment:
+      PROJECT_NAME: ${PROJECT_NAME}
+    volumes:
+      - ./:/wd
+
+  # client-prod:
+  #   build:
+  #     context: .
+  #     dockerfile: ./docker/svelte/Dockerfile
+  #   restart: unless-stopped
+  #   environment:
+  #     VITE_TEST: true
+  #     NODE_ENV: development
+  #     VITE_GRAPHQL_ENDPOINT: https://api.${PROJECT_NAME}.localhost/graphql
+  #     VITE_ENVIRONMENT: local
+  #     VITE_AUTH_DOMAIN: dev-3hklrs-3.eu.auth0.com
+  #     VITE_AUTH_CLIENT_ID: b0C0eiWLzv2BcdL95o1RbnLD8pSvEXvy
+  #     VITE_AUTH_AUDIENCE: http://api.kune.localhost
+  #   volumes:
+  #     - ./:/home/node
+  #   labels:
+  #     - "traefik.enable=true"
+  #     - "traefik.http.routers.client-prod.rule=Host(`prod.${PROJECT_NAME}.localhost`)"
+  #     - "traefik.http.routers.client-prod.entrypoints=http,https"
+  #     - 'traefik.http.services.client-prod.loadbalancer.server.port=80'
+  #     - "traefik.http.routers.client-prod.tls=true"
+
+volumes:
+  pg-data:
+  mkcert-data:

@@ -1,0 +1,17 @@
+enable: true
+
+http:
+  routers:
+    traefik:
+      rule: "Host(`traefik.${PROJECT_NAME}.localhost`)"
+      service: "api@internal"
+      tls:
+        domains:
+          - main: "${PROJECT_NAME}.localhost"
+            sans:
+              - "*.${PROJECT_NAME}.localhost"
+
+tls:
+  certificates:
+    - certFile: "/etc/certs/local-cert.pem"
+      keyFile: "/etc/certs/local-key.pem"
