@@ -1,7 +1,5 @@
 <script lang="ts">
   import { Icon } from 'ui';
-  import type { PageData } from './$houdini';
-  let data: PageData
 </script>
 
 <div>

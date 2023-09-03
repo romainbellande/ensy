@@ -2,6 +2,11 @@ version: '3'
 
 dotenv: ['.env']
 
+includes:
+  client:
+    taskfile: ./apps/client/Taskfile.yml
+    dir: ./apps/client
+
 tasks:
   init:
     desc: initialize project

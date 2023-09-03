@@ -1,4 +1,5 @@
 import * as yup from 'yup';
+import { ReferendumAnswerKind, ReferendumParticipantsKind } from '@/lib/graphql/gql';
 
 export const schema = yup.object({
   name: yup.string().min(2).max(50).required(),
@@ -6,14 +7,8 @@ export const schema = yup.object({
   endDate: yup.string().required(),
   question: yup.string().min(2).max(50).required(),
   description: yup.string().optional().min(0).max(500),
-  // answerKind: yup
-  //   .string()
-  //   .oneOf(Object.values(ReferendumAnswerKind))
-  //   .required(),
-  // participantsKind: yup
-  //   .string()
-  //   .oneOf(Object.values(ReferendumParticipantsKind))
-  //   .required(),
+  answerKind: yup.string().oneOf(Object.values(ReferendumAnswerKind)).required(),
+  participantsKind: yup.string().oneOf(Object.values(ReferendumParticipantsKind)).required(),
   answers: yup
     .array()
     .of(yup.object({ value: yup.string().required() }))

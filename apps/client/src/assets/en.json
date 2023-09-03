@@ -1,7 +1,28 @@
 {
   "pages": {
     "referendums:create": {
-      "title": "create new referendum"
+      "title": "create new referendum",
+      "name": "name",
+      "slug": "slug",
+      "question": "question",
+      "startDate": "start date",
+      "endDate": "end date",
+      "description": "description",
+      "answerKind": {
+        "label": "answer(s)",
+        "Multiple": "multiple",
+        "YesNo": "yes / no question",
+        "addAQuestion": "add a question"
+      },
+      "participantsKind": {
+        "label": "participants",
+        "All": "all members invited",
+        "ByEmail": "select members by email",
+        "ByRole": "select members by role"
+      }
     }
+  },
+  "common": {
+    "save": "save"
   }
 }

@@ -80,7 +80,7 @@ services:
       API_AUTH_ISSUER: https://dev-3hklrs-3.eu.auth0.com
       API_LOG_LEVEL: log
     ports:
-      - 8086:9000
+      - 8086:80
     volumes:
       - ./:/home/node
     labels:
@@ -111,27 +111,26 @@ services:
     volumes:
       - ./:/wd
 
-  # client-prod:
-  #   build:
-  #     context: .
-  #     dockerfile: ./docker/svelte/Dockerfile
-  #   restart: unless-stopped
-  #   environment:
-  #     VITE_TEST: true
-  #     NODE_ENV: development
-  #     VITE_GRAPHQL_ENDPOINT: https://api.${PROJECT_NAME}.localhost/graphql
-  #     VITE_ENVIRONMENT: local
-  #     VITE_AUTH_DOMAIN: dev-3hklrs-3.eu.auth0.com
-  #     VITE_AUTH_CLIENT_ID: b0C0eiWLzv2BcdL95o1RbnLD8pSvEXvy
-  #     VITE_AUTH_AUDIENCE: http://api.kune.localhost
-  #   volumes:
-  #     - ./:/home/node
-  #   labels:
-  #     - "traefik.enable=true"
-  #     - "traefik.http.routers.client-prod.rule=Host(`prod.${PROJECT_NAME}.localhost`)"
-  #     - "traefik.http.routers.client-prod.entrypoints=http,https"
-  #     - 'traefik.http.services.client-prod.loadbalancer.server.port=80'
-  #     - "traefik.http.routers.client-prod.tls=true"
+  client-prod:
+    build:
+      context: .
+      dockerfile: ./docker/svelte/Dockerfile
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PUBLIC_GRAPHQL_ENDPOINT: https://api.${PROJECT_NAME}.localhost/graphql
+      PUBLIC_ENVIRONMENT: local
+      PUBLIC_AUTH_DOMAIN: dev-3hklrs-3.eu.auth0.com
+      PUBLIC_AUTH_CLIENT_ID: b0C0eiWLzv2BcdL95o1RbnLD8pSvEXvy
+      PUBLIC_AUTH_AUDIENCE: http://api.kune.localhost
+    volumes:
+      - ./:/home/node
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.client-prod.rule=Host(`prod.${PROJECT_NAME}.localhost`)"
+      - "traefik.http.routers.client-prod.entrypoints=http,https"
+      - 'traefik.http.services.client-prod.loadbalancer.server.port=80'
+      - "traefik.http.routers.client-prod.tls=true"
 
 volumes:
   pg-data:

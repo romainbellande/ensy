@@ -3,17 +3,34 @@ module.exports = {
   extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'turbo', 'prettier'],
   plugins: ['svelte3', '@typescript-eslint'],
   ignorePatterns: ['*.cjs'],
-  overrides: [{ files: ['*.svelte'], processor: 'svelte3/svelte3' }],
+  overrides: [
+    {
+      files: ['*.svelte'],
+      processor: 'svelte3/svelte3'
+    },
+    {
+      files: ['*.svelte', '*.ts'],
+      rules: {
+        importNotUsedAsValue: 'off',
+        '@typescript-eslint/consistent-type-imports': 'error',
+        'no-unused-vars': 'off',
+        '@typescript-eslint/no-unused-vars': [
+          'error',
+          { varsIgnorePattern: '^_', argsIgnorePattern: '^_' }
+        ]
+      }
+    }
+  ],
   settings: {
     'svelte3/typescript': () => require('typescript')
   },
   parserOptions: {
     sourceType: 'module',
-    ecmaVersion: 2020,
+    ecmaVersion: 2020
   },
   env: {
     browser: true,
     es2017: true,
     node: true
-  },
+  }
 };

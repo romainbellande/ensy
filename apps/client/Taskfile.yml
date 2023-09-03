@@ -1,0 +1,7 @@
+version: '3'
+
+tasks:
+  graphql:gen:
+    desc: generate graphql code
+    cmds:
+      - npm run codegen

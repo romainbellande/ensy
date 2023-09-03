@@ -36,3 +36,4 @@ yarn-error.log*
 .npm
 .bash_history
 .husky
+.pnpm-store

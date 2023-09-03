@@ -3,6 +3,8 @@ FROM node:20 as builder
 RUN chsh -s /bin/bash && \
   npm i -g pnpm@8
 
+RUN echo ${PUBLIC_GRAPHQL_ENDPOINT}
+
 WORKDIR /home/node
 
 COPY . .

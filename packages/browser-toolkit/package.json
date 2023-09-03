@@ -1,0 +1,17 @@
+{
+  "name": "browser-toolkit",
+  "version": "0.0.0",
+  "description": "Browser toolkit for use in svelte websites",
+  "type": "module",
+  "module": "index.ts",
+  "svelte": "index.ts",
+  "license": "MIT",
+  "scripts": {
+    "lint": "prettier --check --ignore-path=../../.prettierignore . && eslint \".\"",
+    "format": "prettier --write --ignore-path=../../.prettierignore .&& eslint \".\" --fix"
+  },
+  "dependencies": {
+    "clsx": "^2.0.0",
+    "tailwind-merge": "^1.14.0"
+  }
+}

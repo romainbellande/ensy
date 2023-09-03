@@ -11,11 +11,7 @@
     "strict": true,
     "baseUrl": "./",
     "paths": {
-      "@/*": ["src/*"],
-      "@assets/*": ["static/*"],
-      "$lib":["./src/lib"],
-      "$lib/*":["./src/lib/*"]
-    },
-    "rootDirs": ["./$houdini/types"]
+      "@/*": ["src/*"]
+    }
   }
 }

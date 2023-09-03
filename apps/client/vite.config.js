@@ -1,17 +1,19 @@
 import { sveltekit } from '@sveltejs/kit/vite';
-import houdini from 'houdini/vite'
+import { resolve } from 'path';
+
+const path = (value) => resolve(__dirname, value);
 
 /** @type {import('vite').UserConfig} */
 const config = {
-  plugins: [sveltekit(), houdini()],
-  resolve: {
-    alias: {
-        $houdini: './$houdini',
-    },
-  },
+  plugins: [sveltekit()],
   server: {
     fs: {
       allow: ['../../packages/ui']
+    }
+  },
+  resolve: {
+    alias: {
+      "@": path("src"),
     }
   }
 };
