@@ -1,0 +1,26 @@
+version: '3'
+
+dotenv: ['.env']
+
+tasks:
+  init:
+    desc: initialize project
+    cmds:
+      - task: cert
+      - task: traefik:init
+
+  author:
+    desc: display author
+    cmds:
+      - echo 'Romain BELLANDE'
+
+  cert:
+    desc: install certificates
+    cmds:
+      - mkcert -install
+      - mkcert -cert-file traefik/certs/local-cert.pem -key-file traefik/certs/local-key.pem "${PROJECT_NAME}.localhost" "*.${PROJECT_NAME}.localhost"
+
+  traefik:init:
+    desc: initialize traefik configuration
+    cmds:
+      - docker compose run envsubst sh -c "envsubst < /wd/traefik/config.example.yml > /wd/traefik/config.yml"

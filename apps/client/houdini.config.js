@@ -5,7 +5,7 @@
 const config = {
 	cacheBufferSize: 0,
 	watchSchema: {
-		url: (env) => env.PUBLIC_GRAPHQL_ENDPOINT
+		url: (env) => 'http://api.ensy.localhost/graphql'
 	},
 	plugins: {
 		'houdini-svelte': {}
