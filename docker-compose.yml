@@ -18,7 +18,7 @@ services:
       - "8080:8080"
       - "8085:8085"
     volumes:
-      - /run/user/1000/docker.sock:/var/run/docker.sock:ro
+      - ${DOCKER_SOCK}:/var/run/docker.sock:ro
       - ./traefik/traefik.yml:/etc/traefik/traefik.yml:ro
       - ./traefik/config.yml:/etc/traefik/config.yml:ro
       - ./traefik/certs:/etc/certs:ro
@@ -39,7 +39,6 @@ services:
     build:
       context: .
       dockerfile: ./docker/node/Dockerfile
-    user: "${UID}:${GID}"
     working_dir: /home/node
     command: ./docker/wait-for-it.sh api:80 -t 240 -s -- pnpm dlx turbo dev --filter client
     restart: unless-stopped
@@ -49,7 +48,7 @@ services:
       PUBLIC_ENVIRONMENT: local
       PUBLIC_AUTH_DOMAIN: dev-3hklrs-3.eu.auth0.com
       PUBLIC_AUTH_CLIENT_ID: b0C0eiWLzv2BcdL95o1RbnLD8pSvEXvy
-      PUBLIC_AUTH_AUDIENCE: http://api.kune.localhost
+      PUBLIC_AUTH_AUDIENCE: http://api.ensy.localhost
     volumes:
       - ./:/home/node
     labels:
@@ -67,7 +66,6 @@ services:
       context: .
       dockerfile: ./docker/node/Dockerfile
     hostname: api.ensy.localhost
-    user: "${UID}:${GID}"
     working_dir: /home/node
     command: pnpm dlx turbo dev --filter api
     restart: unless-stopped
@@ -111,26 +109,26 @@ services:
     volumes:
       - ./:/wd
 
-  client-prod:
-    build:
-      context: .
-      dockerfile: ./docker/svelte/Dockerfile
-    restart: unless-stopped
-    environment:
-      NODE_ENV: production
-      PUBLIC_GRAPHQL_ENDPOINT: https://api.${PROJECT_NAME}.localhost/graphql
-      PUBLIC_ENVIRONMENT: local
-      PUBLIC_AUTH_DOMAIN: dev-3hklrs-3.eu.auth0.com
-      PUBLIC_AUTH_CLIENT_ID: b0C0eiWLzv2BcdL95o1RbnLD8pSvEXvy
-      PUBLIC_AUTH_AUDIENCE: http://api.kune.localhost
-    volumes:
-      - ./:/home/node
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.client-prod.rule=Host(`prod.${PROJECT_NAME}.localhost`)"
-      - "traefik.http.routers.client-prod.entrypoints=http,https"
-      - 'traefik.http.services.client-prod.loadbalancer.server.port=80'
-      - "traefik.http.routers.client-prod.tls=true"
+  # client-prod:
+  #   build:
+  #     context: .
+  #     dockerfile: ./docker/svelte/Dockerfile
+  #   restart: unless-stopped
+  #   environment:
+  #     NODE_ENV: production
+  #     PUBLIC_GRAPHQL_ENDPOINT: https://api.${PROJECT_NAME}.localhost/graphql
+  #     PUBLIC_ENVIRONMENT: local
+  #     PUBLIC_AUTH_DOMAIN: dev-3hklrs-3.eu.auth0.com
+  #     PUBLIC_AUTH_CLIENT_ID: b0C0eiWLzv2BcdL95o1RbnLD8pSvEXvy
+  #     PUBLIC_AUTH_AUDIENCE: http://api.kune.localhost
+  #   volumes:
+  #     - ./:/home/node
+  #   labels:
+  #     - "traefik.enable=true"
+  #     - "traefik.http.routers.client-prod.rule=Host(`prod.${PROJECT_NAME}.localhost`)"
+  #     - "traefik.http.routers.client-prod.entrypoints=http,https"
+  #     - 'traefik.http.services.client-prod.loadbalancer.server.port=80'
+  #     - "traefik.http.routers.client-prod.tls=true"
 
 volumes:
   pg-data:
