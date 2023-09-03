@@ -14,7 +14,7 @@
 <div>
   <Navbar />
   <Sidenav />
-  <div class="pt-28 pl-72 min-h-screen flex flex-col w-screen">
+  <div class="pt-28 pl-72 min-h-screen flex flex-col w-screen space-y-4">
     <Breadcrumbs home={{ href: '/', text: 'home' }} items={breadcrumbs} />
     <slot />
   </div>

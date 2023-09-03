@@ -16,6 +16,7 @@
     "svelte": "^3.9.2"
   },
   "dependencies": {
-    "feather-icons": "^4.29.1"
+    "feather-icons": "^4.29.1",
+    "svelte-i18n": "^3.7.0"
   }
 }

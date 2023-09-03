@@ -1,5 +1,6 @@
 import adapter from '@sveltejs/adapter-static';
 import { vitePreprocess } from '@sveltejs/kit/vite';
+import { resolve } from 'path';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -8,7 +9,10 @@ const config = {
   preprocess: vitePreprocess(),
 
   kit: {
-    adapter: adapter({ fallback: 'index.html' })
+    adapter: adapter({ fallback: 'index.html' }),
+    alias: {
+      $houdini: resolve('.', '$houdini')
+    }
   }
 };
 

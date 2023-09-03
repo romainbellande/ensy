@@ -1,12 +1,8 @@
 <script lang="ts">
   import { icons, FeatherIconNames } from 'feather-icons';
-    import { createEventDispatcher } from 'svelte';
   export let name: FeatherIconNames;
-
-  const dispatch = createEventDispatcher();
-  const onClick = () => dispatch('click');
+  export let height = 16;
+  export let width = 16;
 </script>
 
-<button on:click={onClick}>
-  {@html icons[name].toSvg()}
-</button>
+{@html icons[name].toSvg({ height, width, class: $$props.class })}

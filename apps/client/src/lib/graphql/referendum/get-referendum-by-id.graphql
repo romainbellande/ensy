@@ -1,0 +1,20 @@
+query GetReferendumById($referendumId: ID!) {
+  referendum(id: $referendumId) {
+    answers
+    answerKind
+    createdAt
+    description
+    endDate
+    finalVote
+    id
+    name
+    participantsExternalIds
+    participantsKind
+    participantsRoles
+    question
+    slug
+    startDate
+    status
+    updatedAt
+  }
+}

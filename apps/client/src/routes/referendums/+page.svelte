@@ -1,16 +1,15 @@
 <script lang="ts">
   import { Icon } from 'ui';
-  let handleClick = () => {
-    console.log('clicked');
-  };
+  import type { PageData } from './$houdini';
+  let data: PageData
 </script>
 
 <div>
   <h3 class="flex items-center space-x-4">
-    <span class="capitalize-first font-bold text-lg">referendums</span><Icon
-      name="plus-circle"
-      on:click={handleClick}
-    />
+    <span class="capitalize-first text-lg">referendums</span>
+    <a href="/referendums/create">
+      <Icon class="text-primary" name="plus-circle" />
+    </a>
   </h3>
 
   <div class="overflow-x-auto">
