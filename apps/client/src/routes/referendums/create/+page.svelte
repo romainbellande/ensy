@@ -9,7 +9,7 @@
   import { _ } from 'svelte-i18n';
   import { ReferendumAnswerKind, ReferendumParticipantsKind } from '@/lib/graphql/gql';
   import Icon from 'ui/components/Icon/Icon.svelte';
-    import Textarea from 'ui/components/Textarea/Textarea.svelte';
+  import Textarea from 'ui/components/Textarea/Textarea.svelte';
 
   const pageBaseTrans = 'pages.referendums:create';
 
@@ -47,8 +47,10 @@
   const addAnswer = () => addField(`answers`, { value: '' }, $data.answers.length);
   const removeAnswer = (index: number) => unsetField(`answers.${index}`);
 
-  const addParticipantsExternalId = () => addField(`participantsExternalIds`, { value: '' }, $data.participantsExternalIds.length);
-  const removeParticipantsExternalId = (index: number) => unsetField(`participantsExternalIds.${index}`);
+  const addParticipantsExternalId = () =>
+    addField(`participantsExternalIds`, { value: '' }, $data.participantsExternalIds.length);
+  const removeParticipantsExternalId = (index: number) =>
+    unsetField(`participantsExternalIds.${index}`);
 </script>
 
 <div class="space-y-4">
@@ -99,7 +101,7 @@
           {/each}
         </div>
         {#if participantsKind === ReferendumParticipantsKind.ByEmail}
-            <Button outline on:click={addParticipantsExternalId}
+          <Button outline on:click={addParticipantsExternalId}
             >{$_(`${pageBaseTrans}.participantsKind.addAnEmail`)}</Button
           >
         {/if}

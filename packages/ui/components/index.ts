@@ -7,4 +7,5 @@ export * from './Textarea';
 export * from './Label';
 export * from './Button';
 export * from './Radio';
-export * from './ErrorTooltip'
+export * from './ErrorTooltip';
+export * from './Select';

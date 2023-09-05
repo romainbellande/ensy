@@ -18,7 +18,10 @@ export const schema = yup.object({
     .of(yup.object({ value: yup.string().required() }))
     .required(),
   selectedRole: yup.string().ensure(),
-  participantsExternalIds: yup.array().of(yup.object({ value: yup.string().email().required() })).required(),
+  participantsExternalIds: yup
+    .array()
+    .of(yup.object({ value: yup.string().email().required() }))
+    .required(),
   slug: yup.string().min(2).max(50).required()
 });
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { ErrorTooltip } from '../ErrorTooltip'
+  import { ErrorTooltip } from '../ErrorTooltip';
   export let required = false;
   export let placeholder = '';
   export let name: string;
@@ -9,4 +9,3 @@
 <ErrorTooltip {name}>
   <input class="input input-bordered w-full max-w-xs" {type} {name} {placeholder} {required} />
 </ErrorTooltip>
-

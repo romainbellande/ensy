@@ -20,6 +20,6 @@ setLocale({
   string: {
     min: (min) => ({ key: `${yupBaseTrans}.string.min`, values: { min } }),
     max: (max) => ({ key: `${yupBaseTrans}.string.max`, values: { max } }),
-    email: `${yupBaseTrans}.string.email`,
-  },
+    email: `${yupBaseTrans}.string.email`
+  }
 });

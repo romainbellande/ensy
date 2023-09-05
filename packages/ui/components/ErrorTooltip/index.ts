@@ -1,1 +1,1 @@
-export { default as ErrorTooltip } from './ErrorTooltip.svelte'
+export { default as ErrorTooltip } from './ErrorTooltip.svelte';
