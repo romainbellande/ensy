@@ -4,8 +4,8 @@
   import type { FormValues } from './schema';
   import { validator } from '@felte/validator-yup';
   import { reporter } from '@felte/reporter-svelte';
-  import type { RadioItem } from 'ui';
-  import { Input, Button, Radio } from 'ui';
+  import type { RadioItem, SelectOption } from 'ui';
+  import { Input, Button, Radio, Select } from 'ui';
   import { _ } from 'svelte-i18n';
   import { ReferendumAnswerKind, ReferendumParticipantsKind } from '@/lib/graphql/gql';
   import Icon from 'ui/components/Icon/Icon.svelte';
@@ -19,7 +19,10 @@
     },
     initialValues: {
       answers: [],
-      participantsExternalIds: []
+      participantsExternalIds: [],
+      participantsRoles: [],
+      participantsKind: ReferendumParticipantsKind.All,
+      answerKind: ReferendumAnswerKind.YesNo
     },
     extend: [validator({ schema }), reporter]
   });
@@ -29,6 +32,22 @@
   $: participantsKind = getValue($data, 'participantsKind');
   $: participantsRoles = getValue($data, 'participantsRoles');
   $: participantsExternalIds = getValue($data, 'participantsExternalIds');
+  $: selectedRole = getValue($data, 'selectedRole');
+
+  const rolesOptions: SelectOption[] = [
+    {
+      text: 'common.roles.member',
+      value: 'member',
+    },
+    {
+      text: 'common.roles.admin',
+      value: 'admin',
+    },
+    {
+      text: 'common.roles.super_admin',
+      value: 'super_admin',
+    },
+  ]
 
   const answerKindItems: RadioItem[] = Object.values(ReferendumAnswerKind)
     .map((item) => ({
@@ -51,11 +70,19 @@
     addField(`participantsExternalIds`, { value: '' }, $data.participantsExternalIds.length);
   const removeParticipantsExternalId = (index: number) =>
     unsetField(`participantsExternalIds.${index}`);
+
+  const addParticipantsRoles = () => {
+    if (!participantsRoles.find(({ value }) => value === selectedRole)) {
+      addField(`participantsRoles`, { value: selectedRole }, $data.participantsRoles.length)
+    }
+  }
+  const removeParticipantsRoles = (index: number) =>
+    unsetField(`participantsRoles.${index}`);
 </script>
 
 <div class="space-y-4">
   <h3 class="capitalize-first text-xl">{$_('pages.referendums:create.title')}</h3>
-  <form use:form class="space-y-4 flex card w-max bg-base-100 shadow p-4">
+  <form use:form class="space-y-4 flex card max-w-screen-md bg-base-100 shadow p-4">
     <div class="flex space-x-4">
       <Input label="name" name="name" required />
       <Input label="question" name="question" required />
@@ -104,6 +131,20 @@
           <Button outline on:click={addParticipantsExternalId}
             >{$_(`${pageBaseTrans}.participantsKind.addAnEmail`)}</Button
           >
+        {/if}
+        {#if participantsKind === ReferendumParticipantsKind.ByRole}
+          <div class="flex space-x-4">
+            <Select name="selectedRole" options={rolesOptions} />
+            <Button outline on:click={addParticipantsRoles}
+            >{$_(`${pageBaseTrans}.participantsRoles.add`)}</Button>
+          </div>
+          {#each participantsRoles as participantsRole, index}
+          <div class="flex space-x-4 items-center justify-between">
+            <p>{$_(participantsRole.value)}</p>
+            <Button variant="btn-ghost" on:click={() => removeParticipantsRoles(index)}
+              ><Icon class="text-error" name="trash" /></Button>
+          </div>
+          {/each}
         {/if}
       </div>
     </div>

@@ -7,5 +7,5 @@
 </script>
 
 <ErrorTooltip {name}>
-  <input class="input input-bordered w-full max-w-xs" {type} {name} {placeholder} {required} />
+  <input class="input input-bordered w-full" {type} {name} {placeholder} {required} />
 </ErrorTooltip>
