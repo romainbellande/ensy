@@ -1,17 +1,17 @@
+import type { CanActivate, ExecutionContext } from '@nestjs/common';
 import {
   BadRequestException,
-  CanActivate,
-  ExecutionContext,
   ForbiddenException,
   Injectable,
 } from '@nestjs/common';
 import { JwksClient } from 'jwks-rsa';
 import { ConfigService } from '@nestjs/config';
-import { AuthConfiguration, Configuration } from '@/configuration';
-import { IncomingHttpHeaders } from 'http';
-import { verify, VerifyOptions } from 'jsonwebtoken';
+import type { AuthConfiguration, Configuration } from '@/configuration';
+import type { IncomingHttpHeaders } from 'http';
+import type { VerifyOptions } from 'jsonwebtoken';
+import { verify } from 'jsonwebtoken';
 import jwtDecode from 'jwt-decode';
-import { JwtPayload } from '@/interfaces';
+import type { JwtPayload } from '@/interfaces';
 import { NO_AUTH_METADATA } from '@/decorators';
 import { Reflector } from '@nestjs/core';
 import { GqlExecutionContext } from '@nestjs/graphql';

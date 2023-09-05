@@ -12,17 +12,32 @@
         "label": "answer(s)",
         "Multiple": "multiple",
         "YesNo": "yes / no question",
-        "addAQuestion": "add a question"
+        "addAnAnswer": "add an answer"
       },
       "participantsKind": {
         "label": "participants",
         "All": "all members invited",
         "ByEmail": "select members by email",
-        "ByRole": "select members by role"
+        "ByRole": "select members by role",
+        "addAnEmail": "add an email"
       }
     }
   },
   "common": {
-    "save": "save"
+    "save": "save",
+    "errors": {
+      "default": "invalid field",
+      "required": "field is required",
+      "string": {
+        "min": "minimum length of {{ min }}",
+        "max": "maximum length of {{ max }}",
+        "email": "invalid email"
+      }
+    },
+    "roles": {
+      "member": "member",
+      "admin": "admin",
+      "super_admin": "super admin"
+    }
   }
 }

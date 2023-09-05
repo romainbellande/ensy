@@ -3,7 +3,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { BaseDto } from './base.dto';
+import type { BaseDto } from './base.dto';
 import { Field, GraphQLISODateTime, ID, ObjectType } from '@nestjs/graphql';
 import { IDField } from '@ptc-org/nestjs-query-graphql';
 

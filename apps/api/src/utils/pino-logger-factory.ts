@@ -1,8 +1,8 @@
-import { Configuration } from '@/configuration';
-import { LogLevel } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { Params } from 'nestjs-pino';
-import { Level } from 'pino';
+import type { Configuration } from '@/configuration';
+import type { LogLevel } from '@nestjs/common';
+import type { ConfigService } from '@nestjs/config';
+import type { Params } from 'nestjs-pino';
+import type { Level } from 'pino';
 
 const levelMapper: Record<LogLevel, Level> = {
   verbose: 'trace',

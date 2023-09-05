@@ -3,7 +3,7 @@ import { AfterLoad, Column, Entity } from 'typeorm';
 import { ReferendumParticipantsKind } from './referendum-participants-kind.enum';
 import { Field, ObjectType } from '@nestjs/graphql';
 import { FilterableField } from '@ptc-org/nestjs-query-graphql';
-import { ReferendumCreateDto } from './referendum.create.dto';
+import type { ReferendumCreateDto } from './referendum.create.dto';
 import { ReferendumStatus } from './referendum-status.enum';
 import { ReferendumAnswerKind } from './referendum-answer-kind.enum';
 

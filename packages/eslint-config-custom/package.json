@@ -12,7 +12,8 @@
     "@typescript-eslint/parser": "^5.27.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-turbo": "latest",
-    "eslint-plugin-svelte3": "^4.0.0"
+    "eslint-plugin-svelte3": "^4.0.0",
+    "typescript": "^5.2.2"
   },
   "publishConfig": {
     "access": "public"

@@ -4,6 +4,7 @@
   export let items: RadioItem[];
   export let name: string;
 </script>
+
 <div>
   {#each items as { text, value }}
     <div class="form-control">

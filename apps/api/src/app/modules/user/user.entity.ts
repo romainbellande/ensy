@@ -2,7 +2,7 @@ import { BaseEntity } from '@/utils';
 import { Column, Entity } from 'typeorm';
 import { Field, ObjectType } from '@nestjs/graphql';
 import { FilterableField } from '@ptc-org/nestjs-query-graphql';
-import { UserCreateDto } from './user.create.dto';
+import type { UserCreateDto } from './user.create.dto';
 
 @Entity('User')
 @ObjectType('User')

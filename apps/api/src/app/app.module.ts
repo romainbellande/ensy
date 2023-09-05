@@ -1,15 +1,13 @@
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import type { ApolloDriverConfig } from '@nestjs/apollo';
+import { ApolloDriver } from '@nestjs/apollo';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import {
-  Configuration,
-  configuration,
-  validationSchema,
-} from '@/configuration';
+import type { Configuration } from '@/configuration';
+import { configuration, validationSchema } from '@/configuration';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { UserModule } from '@/app/modules/user/user.module';
 import { LoggerModule } from 'nestjs-pino';

@@ -1,4 +1,4 @@
-import { LogLevel } from '@nestjs/common';
+import type { LogLevel } from '@nestjs/common';
 import * as Joi from 'joi';
 
 export const validationSchema = Joi.object({

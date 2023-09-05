@@ -3,7 +3,7 @@ import { NodeSDK } from '@opentelemetry/sdk-node';
 import { Resource } from '@opentelemetry/resources';
 import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http';
-import { TracingConfiguration } from '@/configuration';
+import type { TracingConfiguration } from '@/configuration';
 import { GraphQLInstrumentation } from '@opentelemetry/instrumentation-graphql';
 import { HttpInstrumentation } from '@opentelemetry/instrumentation-http';
 import { ExpressInstrumentation } from '@opentelemetry/instrumentation-express';

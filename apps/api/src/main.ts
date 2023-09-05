@@ -7,7 +7,8 @@ import { NestFactory } from '@nestjs/core';
 
 import { AppModule } from './app/app.module';
 import { ConfigService } from '@nestjs/config';
-import { Configuration, configuration } from './configuration';
+import type { Configuration } from './configuration';
+import { configuration } from './configuration';
 import { Logger, LoggerErrorInterceptor } from 'nestjs-pino';
 import { ValidationPipe } from '@nestjs/common';
 import { Tracing } from './utils/tracing';
