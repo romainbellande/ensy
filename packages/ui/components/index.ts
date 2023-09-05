@@ -7,3 +7,4 @@ export * from './Textarea';
 export * from './Label';
 export * from './Button';
 export * from './Radio';
+export * from './ErrorTooltip'
