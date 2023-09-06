@@ -37,17 +37,17 @@
   const rolesOptions: SelectOption[] = [
     {
       text: 'common.roles.member',
-      value: 'member',
+      value: 'member'
     },
     {
       text: 'common.roles.admin',
-      value: 'admin',
+      value: 'admin'
     },
     {
       text: 'common.roles.super_admin',
-      value: 'super_admin',
-    },
-  ]
+      value: 'super_admin'
+    }
+  ];
 
   const answerKindItems: RadioItem[] = Object.values(ReferendumAnswerKind)
     .map((item) => ({
@@ -73,11 +73,10 @@
 
   const addParticipantsRoles = () => {
     if (!participantsRoles.find(({ value }) => value === selectedRole)) {
-      addField(`participantsRoles`, { value: selectedRole }, $data.participantsRoles.length)
+      addField(`participantsRoles`, { value: selectedRole }, $data.participantsRoles.length);
     }
-  }
-  const removeParticipantsRoles = (index: number) =>
-    unsetField(`participantsRoles.${index}`);
+  };
+  const removeParticipantsRoles = (index: number) => unsetField(`participantsRoles.${index}`);
 </script>
 
 <div class="space-y-4">
@@ -136,14 +135,16 @@
           <div class="flex space-x-4">
             <Select name="selectedRole" options={rolesOptions} />
             <Button outline on:click={addParticipantsRoles}
-            >{$_(`${pageBaseTrans}.participantsRoles.add`)}</Button>
+              >{$_(`${pageBaseTrans}.participantsRoles.add`)}</Button
+            >
           </div>
           {#each participantsRoles as participantsRole, index}
-          <div class="flex space-x-4 items-center justify-between">
-            <p>{$_(participantsRole.value)}</p>
-            <Button variant="btn-ghost" on:click={() => removeParticipantsRoles(index)}
-              ><Icon class="text-error" name="trash" /></Button>
-          </div>
+            <div class="flex space-x-4 items-center justify-between">
+              <p>{$_(participantsRole.value)}</p>
+              <Button variant="btn-ghost" on:click={() => removeParticipantsRoles(index)}
+                ><Icon class="text-error" name="trash" /></Button
+              >
+            </div>
           {/each}
         {/if}
       </div>

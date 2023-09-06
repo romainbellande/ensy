@@ -5,6 +5,7 @@ query FindReferendums {
         answers
         createdAt
         description
+        question
         endDate
         id
         name

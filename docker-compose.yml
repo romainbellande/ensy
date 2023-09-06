@@ -48,7 +48,8 @@ services:
       PUBLIC_ENVIRONMENT: local
       PUBLIC_AUTH_DOMAIN: dev-3hklrs-3.eu.auth0.com
       PUBLIC_AUTH_CLIENT_ID: b0C0eiWLzv2BcdL95o1RbnLD8pSvEXvy
-      PUBLIC_AUTH_AUDIENCE: http://api.ensy.localhost
+      PUBLIC_AUTH_AUDIENCE: https://api.ensy.localhost
+      PUBLIC_HOST: https://ensy.localhost
     volumes:
       - ./:/home/node
     labels:

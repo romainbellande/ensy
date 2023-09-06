@@ -524,6 +524,7 @@ export type FindReferendumsQuery = {
         answers: Array<string>;
         createdAt: Date;
         description?: string | null;
+        question: string;
         endDate: Date;
         id: string;
         name: string;
@@ -577,6 +578,7 @@ export const FindReferendumsDocument = gql`
           answers
           createdAt
           description
+          question
           endDate
           id
           name

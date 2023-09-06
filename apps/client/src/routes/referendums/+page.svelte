@@ -1,5 +1,10 @@
 <script lang="ts">
   import { Icon } from 'ui';
+  import type { PageData } from './$types';
+  import dayjs from 'dayjs';
+  import Button from 'ui/components/Button/Button.svelte';
+
+  export let data: PageData;
 </script>
 
 <div>
@@ -20,20 +25,32 @@
           <th>vote</th>
           <th>status</th>
           <th>start date</th>
-          <th>end date</th>
+          <th>end date</th>asasda
           <th>actions</th>
         </tr>
       </thead>
       <tbody>
         <!-- row 1 -->
-        <tr>
-          <td>do we must accept pension reform ?</td>
-          <td>no</td>
-          <td>closed</td>
-          <td>12/08/23 12:23</td>
-          <td>16/08/23 12:23</td>
-          <td>test</td>
-        </tr>
+        {#each data.referendums as referendum}
+          <tr>
+            <td>{referendum.question}</td>
+            <td>TODO: referendum vote result</td>
+            <td>closed</td>
+            <td>{dayjs(referendum.startDate).format('lll')}</td>
+            <td>{dayjs(referendum.endDate).format('lll')}</td>
+            <td>
+              <Button variant="btn-ghost">
+                <Icon class="text-primary" name="eye" />
+              </Button>
+              <Button variant="btn-ghost">
+                <Icon class="text-secondary" name="edit" />
+              </Button>
+              <Button variant="btn-ghost">
+                <Icon class="text-error" name="trash" />
+              </Button>
+            </td>
+          </tr>
+        {/each}
       </tbody>
     </table>
   </div>
