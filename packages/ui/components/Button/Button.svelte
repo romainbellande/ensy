@@ -10,10 +10,12 @@
     | 'btn-ghost'
     | 'btn-link' = 'btn-primary';
 
-  export let type: 'submit' | 'button' = 'button';
+  export let type: 'submit' | 'button' | 'modal' = 'button';
   export let outline: boolean = false;
 </script>
 
-<button {type} class={cn('btn capitalize-first', variant, { 'btn-outline': outline })} on:click
-  ><slot /></button
+<button
+  type={type === 'modal' ? undefined : type}
+  class={cn('btn capitalize-first', variant, { 'btn-outline': outline })}
+  on:click><slot /></button
 >

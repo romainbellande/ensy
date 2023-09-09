@@ -37,3 +37,7 @@ yarn-error.log*
 .bash_history
 .husky
 .pnpm-store
+
+# moon
+.moon/cache
+.moon/docker

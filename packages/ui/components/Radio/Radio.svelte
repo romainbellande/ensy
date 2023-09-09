@@ -5,7 +5,7 @@
   export let name: string;
 </script>
 
-<div>
+<div class={$$props.class}>
   {#each items as { text, value }}
     <div class="form-control">
       <label class="label cursor-pointer space-x-4">

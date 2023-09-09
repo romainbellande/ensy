@@ -24,10 +24,20 @@
       "participantsRoles": {
         "add": "add role"
       }
+    },
+    "referendums:id": {
+      "participation": "participation",
+      "remainingTime": "remaining time",
+      "yes": "yes",
+      "no": "no",
+      "vote": "vote",
+      "voteConfirmation": "vote confirmation"
     }
   },
   "common": {
     "save": "save",
+    "cancel": "cancel",
+    "submit": "submit",
     "errors": {
       "default": "invalid field",
       "required": "field is required",

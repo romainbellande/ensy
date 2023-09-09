@@ -1,4 +1,4 @@
 export interface RadioItem {
   text: string;
-  value: string;
+  value: string | number | boolean;
 }

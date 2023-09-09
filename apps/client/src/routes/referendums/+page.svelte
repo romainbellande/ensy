@@ -2,7 +2,7 @@
   import { Icon } from 'ui';
   import type { PageData } from './$types';
   import dayjs from 'dayjs';
-  import Button from 'ui/components/Button/Button.svelte';
+  import { Button, Link } from 'ui';
 
   export let data: PageData;
 </script>
@@ -38,13 +38,13 @@
             <td>closed</td>
             <td>{dayjs(referendum.startDate).format('lll')}</td>
             <td>{dayjs(referendum.endDate).format('lll')}</td>
-            <td>
-              <Button variant="btn-ghost">
+            <td class="flex space-x-4 items-center">
+              <Link href={`/referendums/${referendum.id}`}>
                 <Icon class="text-primary" name="eye" />
-              </Button>
-              <Button variant="btn-ghost">
+              </Link>
+              <Link href={`/referendums/${referendum.id}`}>
                 <Icon class="text-secondary" name="edit" />
-              </Button>
+              </Link>
               <Button variant="btn-ghost">
                 <Icon class="text-error" name="trash" />
               </Button>

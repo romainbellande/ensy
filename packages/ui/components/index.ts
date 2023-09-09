@@ -9,3 +9,5 @@ export * from './Button';
 export * from './Radio';
 export * from './ErrorTooltip';
 export * from './Select';
+export * from './Progress';
+export * from './Link';

@@ -83,9 +83,15 @@ importers:
       '@ptc-org/nestjs-query-typeorm':
         specifier: ^4.0.0
         version: 4.0.0(@nestjs/common@10.0.0)(@nestjs/typeorm@10.0.0)(@ptc-org/nestjs-query-core@4.0.0)(class-transformer@0.5.1)(reflect-metadata@0.1.13)(typeorm@0.3.17)
+      class-transformer:
+        specifier: ^0.5.1
+        version: 0.5.1
       class-validator:
         specifier: ^0.14.0
         version: 0.14.0
+      graphql-subscriptions:
+        specifier: ^2.0.0
+        version: 2.0.0(graphql@16.8.0)
       joi:
         specifier: ^17.10.1
         version: 17.10.1
@@ -100,19 +106,25 @@ importers:
         version: 3.1.2
       nestjs-pino:
         specifier: ^3.4.0
-        version: 3.4.0(@nestjs/common@10.0.0)(pino-http@8.4.0)
+        version: 3.4.0(@nestjs/common@10.0.0)(pino-http@8.5.0)
       pg:
         specifier: ^8.11.3
         version: 8.11.3
       pino:
         specifier: ^8.15.0
         version: 8.15.0
+      pino-http:
+        specifier: ^8.5.0
+        version: 8.5.0
       pino-pretty:
         specifier: ^10.2.0
         version: 10.2.0
       reflect-metadata:
         specifier: ^0.1.13
         version: 0.1.13
+      rimraf:
+        specifier: ^5.0.1
+        version: 5.0.1
       rxjs:
         specifier: ^7.8.1
         version: 7.8.1
@@ -8676,7 +8688,7 @@ packages:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
     dev: true
 
-  /nestjs-pino@3.4.0(@nestjs/common@10.0.0)(pino-http@8.4.0):
+  /nestjs-pino@3.4.0(@nestjs/common@10.0.0)(pino-http@8.5.0):
     resolution: {integrity: sha512-L79tk+WqVJApGxD4K40srSHopwlBX8WVPoIJtVhWaxJUfk9ND6eZp7kmgdgwQw8PpYUeoeOhS1g2j0Ep3c0NJA==}
     engines: {node: '>= 14'}
     requiresBuild: true
@@ -8685,7 +8697,7 @@ packages:
       pino-http: ^6.4.0 || ^7.0.0 || ^8.0.0
     dependencies:
       '@nestjs/common': 10.0.0(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
-      pino-http: 8.4.0
+      pino-http: 8.5.0
     dev: false
 
   /next-tick@1.1.0:
@@ -9132,8 +9144,8 @@ packages:
       split2: 4.2.0
     dev: false
 
-  /pino-http@8.4.0:
-    resolution: {integrity: sha512-9I1eRLxsujQJwLQTrHBU0wDlwnry2HzV2TlDwAsmZ9nT3Y2NQBLrz+DYp73L4i11vl/eudnFT8Eg0Kp62tMwEw==}
+  /pino-http@8.5.0:
+    resolution: {integrity: sha512-kLGKNLyfWfdmrG1Ug0YdYpCTGbNcuD/YGC3g+elRU/Cm44UTs+tj/dZTxDN3bYauekxFxdLZhJuZdKKl0cml9w==}
     dependencies:
       get-caller-file: 2.0.5
       pino: 8.15.0
@@ -9686,6 +9698,14 @@ packages:
     dependencies:
       glob: 9.3.5
     dev: true
+
+  /rimraf@5.0.1:
+    resolution: {integrity: sha512-OfFZdwtd3lZ+XZzYP/6gTACubwFcHdLRqS9UX3UwpU2dnGQYkPFISRwvM3w9IiB2w7bW5qGo/uAwE4SmXXSKvg==}
+    engines: {node: '>=14'}
+    hasBin: true
+    dependencies:
+      glob: 10.3.4
+    dev: false
 
   /rollup@3.20.2:
     resolution: {integrity: sha512-3zwkBQl7Ai7MFYQE0y1MeQ15+9jsi7XxfrqwTb/9EK8D9C9+//EBR4M+CuA1KODRaNbFez/lWxA5vhEGZp4MUg==}
