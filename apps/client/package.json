@@ -23,9 +23,11 @@
     "graphql-client": "^2.0.1",
     "graphql-request": "^6.1.0",
     "graphql-tag": "^2.12.6",
+    "slugify": "^1.6.6",
     "svelte-i18n": "^3.7.0",
     "tailwind-merge": "^1.14.0",
     "ui": "workspace:*",
+    "browser-toolkit": "workspace:*",
     "yup": "^1.2.0"
   },
   "devDependencies": {

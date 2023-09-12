@@ -6,7 +6,7 @@ import type { UserCreateDto } from './user.create.dto';
 
 @Entity('User')
 @ObjectType('User')
-export class UserEntity extends BaseEntity implements UserCreateDto {
+export class User extends BaseEntity<User> implements UserCreateDto {
   @Column()
   @FilterableField()
   name: string;

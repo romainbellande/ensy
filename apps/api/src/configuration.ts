@@ -27,6 +27,8 @@ export const validationSchema = Joi.object({
   API_TRACING_ENABLED: Joi.boolean().default(false),
   API_HOST_URL: Joi.string().ip({ version: 'ipv4' }).default('0.0.0.0'),
   API_AUTH_ISSUER: Joi.string().uri({ scheme: ['https'] }),
+  API_SEEDS_USER_EMAIL: Joi.string().email().required(),
+  API_SEEDS_USER_EXTERNAL_ID: Joi.string().required(),
 });
 
 export interface TracingConfiguration {
@@ -38,6 +40,15 @@ export interface AuthConfiguration {
   issuer: string;
 }
 
+export interface UserSeed {
+  email: string;
+  externalId: string;
+}
+
+export interface Seeds {
+  user: UserSeed;
+}
+
 export interface Configuration {
   databaseUrl: string;
   port: number;
@@ -46,6 +57,7 @@ export interface Configuration {
   logLevel: LogLevel;
   tracing: TracingConfiguration;
   auth: AuthConfiguration;
+  seeds: Seeds;
 }
 
 export const configuration = (): Configuration => ({
@@ -60,5 +72,11 @@ export const configuration = (): Configuration => ({
   },
   auth: {
     issuer: process.env.API_AUTH_ISSUER,
+  },
+  seeds: {
+    user: {
+      email: process.env.API_SEEDS_USER_EMAIL,
+      externalId: process.env.API_SEEDS_USER_EXTERNAL_ID,
+    },
   },
 });

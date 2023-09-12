@@ -1,0 +1,7 @@
+mutation CreateOneReferendumVote($createOneReferendumVoteInput2: CreateOneReferendumVoteInput!) {
+  createOneReferendumVote(input: $createOneReferendumVoteInput2) {
+    id
+    agree
+    answer
+  }
+}

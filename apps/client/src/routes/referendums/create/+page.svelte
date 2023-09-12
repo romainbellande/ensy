@@ -10,12 +10,17 @@
   import { ReferendumAnswerKind, ReferendumParticipantsKind } from '@/lib/graphql/gql';
   import Icon from 'ui/components/Icon/Icon.svelte';
   import Textarea from 'ui/components/Textarea/Textarea.svelte';
+  import slugify from 'slugify';
+  import { client } from '@/lib/graphql';
+  import { formatter } from './formatter';
 
   const pageBaseTrans = 'pages.referendums:create';
 
-  const { form, data, addField, unsetField } = createForm<FormValues>({
-    async onSubmit(values) {
-      console.log('values :>> ', values);
+  const { form, data, addField, unsetField, errors, setFields } = createForm<FormValues>({
+    onSubmit(values) {
+      const input = formatter(values);
+      // TODO: handle error
+      return client.CreateOneReferendum({ input });
     },
     initialValues: {
       answers: [],
@@ -33,6 +38,10 @@
   $: participantsRoles = getValue($data, 'participantsRoles');
   $: participantsExternalIds = getValue($data, 'participantsExternalIds');
   $: selectedRole = getValue($data, 'selectedRole');
+  $: {
+    const name = getValue($data, 'name');
+    setFields('slug', slugify(name || '', { lower: true, trim: true }));
+  }
 
   const rolesOptions: SelectOption[] = [
     {
@@ -77,6 +86,9 @@
     }
   };
   const removeParticipantsRoles = (index: number) => unsetField(`participantsRoles.${index}`);
+  const submitting = () => {
+    console.log('form :>> ', $errors);
+  };
 </script>
 
 <div class="space-y-4">
@@ -84,8 +96,9 @@
   <form use:form class="space-y-4 flex card max-w-screen-md bg-base-100 shadow p-4">
     <div class="flex space-x-4">
       <Input label="name" name="name" required />
-      <Input label="question" name="question" required />
+      <Input label="slug" name="slug" required disabled />
     </div>
+    <Input label="question" name="question" required />
 
     <Textarea label="description" name="description" />
 
@@ -149,6 +162,6 @@
         {/if}
       </div>
     </div>
-    <Button type="submit">{$_('common.save')}</Button>
+    <Button type="submit" on:click={submitting}>{$_('common.save')}</Button>
   </form>
 </div>

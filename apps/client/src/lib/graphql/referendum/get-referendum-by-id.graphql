@@ -16,5 +16,11 @@ query GetReferendumById($referendumId: ID!) {
     startDate
     status
     updatedAt
+    votes {
+      user {
+        id
+        externalId
+      }
+    }
   }
 }

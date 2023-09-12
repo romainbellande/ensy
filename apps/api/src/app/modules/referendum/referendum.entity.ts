@@ -1,16 +1,21 @@
 import { BaseEntity } from '@/utils';
-import { AfterLoad, Column, Entity } from 'typeorm';
+import { AfterLoad, Column, Entity, OneToMany } from 'typeorm';
 import { ReferendumParticipantsKind } from './referendum-participants-kind.enum';
 import { Field, ObjectType } from '@nestjs/graphql';
-import { FilterableField } from '@ptc-org/nestjs-query-graphql';
+import {
+  FilterableField,
+  UnPagedRelation,
+} from '@ptc-org/nestjs-query-graphql';
 import type { ReferendumCreateDto } from './referendum.create.dto';
 import { ReferendumStatus } from './referendum-status.enum';
 import { ReferendumAnswerKind } from './referendum-answer-kind.enum';
+import { ReferendumVote } from '../referendum-vote';
 
 @Entity('Referendum')
 @ObjectType('Referendum')
-export class ReferendumEntity
-  extends BaseEntity
+@UnPagedRelation('votes', () => ReferendumVote, { update: { enabled: true } })
+export class Referendum
+  extends BaseEntity<Referendum>
   implements ReferendumCreateDto
 {
   @Column()
@@ -80,6 +85,9 @@ export class ReferendumEntity
 
   @Field(() => ReferendumStatus)
   status: ReferendumStatus;
+
+  @OneToMany(() => ReferendumVote, (vote) => vote.referendum)
+  votes: ReferendumVote[];
 
   @AfterLoad()
   afterLoad() {

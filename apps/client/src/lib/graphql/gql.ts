@@ -23,6 +23,18 @@ export type Scalars = {
   DateTime: { input: Date; output: Date };
 };
 
+export type AddVotesToReferendumInput = {
+  /** The id of the record. */
+  id: Scalars['ID']['input'];
+  /** The ids of the relations. */
+  relationIds: Array<Scalars['ID']['input']>;
+};
+
+export type CreateManyReferendumVotesInput = {
+  /** Array of records to create */
+  referendumVotes: Array<CreateReferendumVote>;
+};
+
 export type CreateManyReferendumsInput = {
   /** Array of records to create */
   referendums: Array<CreateReferendum>;
@@ -36,6 +48,11 @@ export type CreateManyUsersInput = {
 export type CreateOneReferendumInput = {
   /** The record to create */
   referendum: CreateReferendum;
+};
+
+export type CreateOneReferendumVoteInput = {
+  /** The record to create */
+  referendumVote: CreateReferendumVote;
 };
 
 export type CreateOneUserInput = {
@@ -60,6 +77,13 @@ export type CreateReferendum = {
   startDate?: Scalars['DateTime']['input'];
 };
 
+export type CreateReferendumVote = {
+  agree?: InputMaybe<Scalars['Boolean']['input']>;
+  answer?: InputMaybe<Scalars['String']['input']>;
+  referendumId: Scalars['String']['input'];
+  userId: Scalars['String']['input'];
+};
+
 export type CreateUser = {
   email: Scalars['String']['input'];
   externalId: Scalars['String']['input'];
@@ -75,6 +99,11 @@ export type CursorPaging = {
   first?: InputMaybe<Scalars['Int']['input']>;
   /** Paginate last */
   last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type DeleteManyReferendumVotesInput = {
+  /** Filter to find records to delete */
+  filter: ReferendumVoteDeleteFilter;
 };
 
 export type DeleteManyReferendumsInput = {
@@ -94,6 +123,11 @@ export type DeleteManyUsersInput = {
 };
 
 export type DeleteOneReferendumInput = {
+  /** The id of the record to delete. */
+  id: Scalars['ID']['input'];
+};
+
+export type DeleteOneReferendumVoteInput = {
   /** The id of the record to delete. */
   id: Scalars['ID']['input'];
 };
@@ -122,18 +156,34 @@ export type IdFilterComparison = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  addVotesToReferendum: Referendum;
+  createManyReferendumVotes: Array<ReferendumVote>;
   createManyReferendums: Array<Referendum>;
   createManyUsers: Array<User>;
   createOneReferendum: Referendum;
+  createOneReferendumVote: ReferendumVote;
   createOneUser: User;
+  deleteManyReferendumVotes: DeleteManyResponse;
   deleteManyReferendums: DeleteManyResponse;
   deleteManyUsers: DeleteManyResponse;
   deleteOneReferendum: ReferendumDeleteResponse;
+  deleteOneReferendumVote: ReferendumVoteDeleteResponse;
   deleteOneUser: UserDeleteResponse;
+  setVotesOnReferendum: Referendum;
+  updateManyReferendumVotes: UpdateManyResponse;
   updateManyReferendums: UpdateManyResponse;
   updateManyUsers: UpdateManyResponse;
   updateOneReferendum: Referendum;
+  updateOneReferendumVote: ReferendumVote;
   updateOneUser: User;
+};
+
+export type MutationAddVotesToReferendumArgs = {
+  input: AddVotesToReferendumInput;
+};
+
+export type MutationCreateManyReferendumVotesArgs = {
+  input: CreateManyReferendumVotesInput;
 };
 
 export type MutationCreateManyReferendumsArgs = {
@@ -148,8 +198,16 @@ export type MutationCreateOneReferendumArgs = {
   input: CreateOneReferendumInput;
 };
 
+export type MutationCreateOneReferendumVoteArgs = {
+  input: CreateOneReferendumVoteInput;
+};
+
 export type MutationCreateOneUserArgs = {
   input: CreateOneUserInput;
+};
+
+export type MutationDeleteManyReferendumVotesArgs = {
+  input: DeleteManyReferendumVotesInput;
 };
 
 export type MutationDeleteManyReferendumsArgs = {
@@ -164,8 +222,20 @@ export type MutationDeleteOneReferendumArgs = {
   input: DeleteOneReferendumInput;
 };
 
+export type MutationDeleteOneReferendumVoteArgs = {
+  input: DeleteOneReferendumVoteInput;
+};
+
 export type MutationDeleteOneUserArgs = {
   input: DeleteOneUserInput;
+};
+
+export type MutationSetVotesOnReferendumArgs = {
+  input: SetVotesOnReferendumInput;
+};
+
+export type MutationUpdateManyReferendumVotesArgs = {
+  input: UpdateManyReferendumVotesInput;
 };
 
 export type MutationUpdateManyReferendumsArgs = {
@@ -178,6 +248,10 @@ export type MutationUpdateManyUsersArgs = {
 
 export type MutationUpdateOneReferendumArgs = {
   input: UpdateOneReferendumInput;
+};
+
+export type MutationUpdateOneReferendumVoteArgs = {
+  input: UpdateOneReferendumVoteInput;
 };
 
 export type MutationUpdateOneUserArgs = {
@@ -198,7 +272,10 @@ export type PageInfo = {
 
 export type Query = {
   __typename?: 'Query';
+  me: User;
   referendum: Referendum;
+  referendumVote: ReferendumVote;
+  referendumVotes: ReferendumVoteConnection;
   referendums: ReferendumConnection;
   user: User;
   users: UserConnection;
@@ -206,6 +283,16 @@ export type Query = {
 
 export type QueryReferendumArgs = {
   id: Scalars['ID']['input'];
+};
+
+export type QueryReferendumVoteArgs = {
+  id: Scalars['ID']['input'];
+};
+
+export type QueryReferendumVotesArgs = {
+  filter?: ReferendumVoteFilter;
+  paging?: CursorPaging;
+  sorting?: Array<ReferendumVoteSort>;
 };
 
 export type QueryReferendumsArgs = {
@@ -244,6 +331,12 @@ export type Referendum = {
   startDate?: Maybe<Scalars['DateTime']['output']>;
   status: ReferendumStatus;
   updatedAt: Scalars['DateTime']['output'];
+  votes: Array<ReferendumVote>;
+};
+
+export type ReferendumVotesArgs = {
+  filter?: ReferendumVoteFilter;
+  sorting?: Array<ReferendumVoteSort>;
 };
 
 export enum ReferendumAnswerKind {
@@ -337,6 +430,76 @@ export type ReferendumUpdateFilter = {
   slug?: InputMaybe<StringFieldComparison>;
 };
 
+export type ReferendumVote = {
+  __typename?: 'ReferendumVote';
+  agree: Scalars['Boolean']['output'];
+  answer?: Maybe<Scalars['String']['output']>;
+  createdAt: Scalars['DateTime']['output'];
+  id: Scalars['ID']['output'];
+  updatedAt: Scalars['DateTime']['output'];
+  user: User;
+};
+
+export type ReferendumVoteConnection = {
+  __typename?: 'ReferendumVoteConnection';
+  /** Array of edges. */
+  edges: Array<ReferendumVoteEdge>;
+  /** Paging information */
+  pageInfo: PageInfo;
+};
+
+export type ReferendumVoteDeleteFilter = {
+  and?: InputMaybe<Array<ReferendumVoteDeleteFilter>>;
+  id?: InputMaybe<IdFilterComparison>;
+  or?: InputMaybe<Array<ReferendumVoteDeleteFilter>>;
+};
+
+export type ReferendumVoteDeleteResponse = {
+  __typename?: 'ReferendumVoteDeleteResponse';
+  agree?: Maybe<Scalars['Boolean']['output']>;
+  answer?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+};
+
+export type ReferendumVoteEdge = {
+  __typename?: 'ReferendumVoteEdge';
+  /** Cursor for this node. */
+  cursor: Scalars['ConnectionCursor']['output'];
+  /** The node containing the ReferendumVote */
+  node: ReferendumVote;
+};
+
+export type ReferendumVoteFilter = {
+  and?: InputMaybe<Array<ReferendumVoteFilter>>;
+  id?: InputMaybe<IdFilterComparison>;
+  or?: InputMaybe<Array<ReferendumVoteFilter>>;
+};
+
+export type ReferendumVoteSort = {
+  direction: SortDirection;
+  field: ReferendumVoteSortFields;
+  nulls?: InputMaybe<SortNulls>;
+};
+
+export enum ReferendumVoteSortFields {
+  Id = 'id'
+}
+
+export type ReferendumVoteUpdateFilter = {
+  and?: InputMaybe<Array<ReferendumVoteUpdateFilter>>;
+  id?: InputMaybe<IdFilterComparison>;
+  or?: InputMaybe<Array<ReferendumVoteUpdateFilter>>;
+};
+
+export type SetVotesOnReferendumInput = {
+  /** The id of the record. */
+  id: Scalars['ID']['input'];
+  /** The ids of the relations. */
+  relationIds: Array<Scalars['ID']['input']>;
+};
+
 /** Sort Directions */
 export enum SortDirection {
   Asc = 'ASC',
@@ -366,6 +529,13 @@ export type StringFieldComparison = {
   notLike?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type UpdateManyReferendumVotesInput = {
+  /** Filter used to find fields to update */
+  filter: ReferendumVoteUpdateFilter;
+  /** The update to apply to all records found using the filter */
+  update: UpdateReferendumVote;
+};
+
 export type UpdateManyReferendumsInput = {
   /** Filter used to find fields to update */
   filter: ReferendumUpdateFilter;
@@ -393,6 +563,13 @@ export type UpdateOneReferendumInput = {
   update: UpdateReferendum;
 };
 
+export type UpdateOneReferendumVoteInput = {
+  /** The id of the record to update */
+  id: Scalars['ID']['input'];
+  /** The update to apply. */
+  update: UpdateReferendumVote;
+};
+
 export type UpdateOneUserInput = {
   /** The id of the record to update */
   id: Scalars['ID']['input'];
@@ -418,6 +595,14 @@ export type UpdateReferendum = {
   slug?: InputMaybe<Scalars['String']['input']>;
   startDate?: InputMaybe<Scalars['DateTime']['input']>;
   status?: InputMaybe<ReferendumStatus>;
+  updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
+};
+
+export type UpdateReferendumVote = {
+  agree?: InputMaybe<Scalars['Boolean']['input']>;
+  answer?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['DateTime']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
@@ -502,6 +687,20 @@ export type UserUpdateFilter = {
   or?: InputMaybe<Array<UserUpdateFilter>>;
 };
 
+export type CreateOneReferendumVoteMutationVariables = Exact<{
+  createOneReferendumVoteInput2: CreateOneReferendumVoteInput;
+}>;
+
+export type CreateOneReferendumVoteMutation = {
+  __typename?: 'Mutation';
+  createOneReferendumVote: {
+    __typename?: 'ReferendumVote';
+    id: string;
+    agree: boolean;
+    answer?: string | null;
+  };
+};
+
 export type CreateOneReferendumMutationVariables = Exact<{
   input: CreateOneReferendumInput;
 }>;
@@ -560,9 +759,29 @@ export type GetReferendumByIdQuery = {
     startDate?: Date | null;
     status: ReferendumStatus;
     updatedAt: Date;
+    votes: Array<{
+      __typename?: 'ReferendumVote';
+      user: { __typename?: 'User'; id: string; externalId: string };
+    }>;
   };
 };
 
+export type GetMeQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetMeQuery = {
+  __typename?: 'Query';
+  me: { __typename?: 'User'; id: string; externalId: string; email: string };
+};
+
+export const CreateOneReferendumVoteDocument = gql`
+  mutation CreateOneReferendumVote($createOneReferendumVoteInput2: CreateOneReferendumVoteInput!) {
+    createOneReferendumVote(input: $createOneReferendumVoteInput2) {
+      id
+      agree
+      answer
+    }
+  }
+`;
 export const CreateOneReferendumDocument = gql`
   mutation CreateOneReferendum($input: CreateOneReferendumInput!) {
     createOneReferendum(input: $input) {
@@ -609,6 +828,21 @@ export const GetReferendumByIdDocument = gql`
       startDate
       status
       updatedAt
+      votes {
+        user {
+          id
+          externalId
+        }
+      }
+    }
+  }
+`;
+export const GetMeDocument = gql`
+  query GetMe {
+    me {
+      id
+      externalId
+      email
     }
   }
 `;
@@ -623,6 +857,21 @@ const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationTy
 
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
+    CreateOneReferendumVote(
+      variables: CreateOneReferendumVoteMutationVariables,
+      requestHeaders?: GraphQLClientRequestHeaders
+    ): Promise<CreateOneReferendumVoteMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<CreateOneReferendumVoteMutation>(
+            CreateOneReferendumVoteDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'CreateOneReferendumVote',
+        'mutation'
+      );
+    },
     CreateOneReferendum(
       variables: CreateOneReferendumMutationVariables,
       requestHeaders?: GraphQLClientRequestHeaders
@@ -662,6 +911,20 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
             ...wrappedRequestHeaders
           }),
         'GetReferendumById',
+        'query'
+      );
+    },
+    GetMe(
+      variables?: GetMeQueryVariables,
+      requestHeaders?: GraphQLClientRequestHeaders
+    ): Promise<GetMeQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetMeQuery>(GetMeDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders
+          }),
+        'GetMe',
         'query'
       );
     }

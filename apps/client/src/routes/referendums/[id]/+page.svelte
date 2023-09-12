@@ -4,8 +4,13 @@
   import dayjs from 'dayjs';
   import { _ } from 'svelte-i18n';
   import { Button, Icon } from 'ui';
-
+  import { client } from '@/lib/graphql';
+  import { createForm, getValue } from 'felte';
+  import { schema, type FormValues } from './schema';
+  import { validator } from '@felte/validator-yup';
+  import { reporter } from '@felte/reporter-svelte';
   export let data: PageData;
+  import { currentUser } from '@/lib/stores';
 
   interface ShowModalFn {
     showModal(): void;
@@ -47,12 +52,48 @@
     }
   ];
 
-  const showConfirm = (): void => {
+  const answers: RadioItem[] = data.referendum.answers.map((answer) => ({
+    text: answer,
+    value: answer
+  }));
+
+  const {
+    form,
+    data: formData,
+    validate
+  } = createForm<FormValues>({
+    initialValues: {
+      answer: '',
+      agree: false
+    },
+    extend: [validator({ schema, castValues: true }), reporter]
+  });
+
+  const showConfirm = async (): Promise<void> => {
+    await validate();
     const confirmVoteEl = document.getElementById('confirm-vote') as unknown as ShowModalFn;
     confirmVoteEl.showModal();
   };
 
-  const submitVote = () => {};
+  const submitVote = async () => {
+    const answer = getValue($formData, 'answer');
+    const agree = getValue($formData, 'agree');
+
+    await client.CreateOneReferendumVote({
+      createOneReferendumVoteInput2: {
+        referendumVote: {
+          referendumId: data.referendum.id,
+          userId: $currentUser.id,
+          agree,
+          answer
+        }
+      }
+    });
+  };
+
+  $: hasVoted = Boolean(
+    data.referendum.votes.find((vote) => vote.user.externalId === $currentUser.externalId)
+  );
 </script>
 
 <div class="space-y-8 max-w-max">
@@ -79,15 +120,17 @@
   {#if data.referendum.description}
     <p>{data.referendum.description}</p>
   {/if}
-  <div class="flex justify-between space-x-4 items-end">
+  <form class="flex justify-between space-x-4 items-end" use:form>
     {#if data.referendum.answers.length === 0}
-      <Radio class="max-w-max" name="yes" items={yesNoItems} />
+      <Radio class="max-w-max" name="agree" items={yesNoItems} />
+    {:else}
+      <Radio class="max-w-max" name="answer" items={answers} />
     {/if}
     <Button on:click={showConfirm}>
       <span>{$_(`${pageBaseTrans}.vote`)}</span>
       <Icon name="mail" />
     </Button>
-  </div>
+  </form>
 </div>
 
 <dialog id="confirm-vote" class="modal">

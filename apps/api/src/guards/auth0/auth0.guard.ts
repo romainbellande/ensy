@@ -1,3 +1,4 @@
+import { UserContext } from './../../app/modules/user/user.interfaces';
 import type { CanActivate, ExecutionContext } from '@nestjs/common';
 import {
   BadRequestException,
@@ -33,7 +34,7 @@ export class Auth0Guard implements CanActivate {
       return true;
     }
     const ctx = GqlExecutionContext.create(context);
-    const request = ctx.getContext().req;
+    const request = ctx.getContext<UserContext>().req;
     const { headers } = request;
     const token: string | null = this.extractTokenFromHeader(headers);
 
@@ -50,7 +51,9 @@ export class Auth0Guard implements CanActivate {
 
     const uid = decodedToken.sub;
 
-    request['uid'] = uid;
+    request.user = {
+      externalId: uid,
+    };
 
     return true;
   }

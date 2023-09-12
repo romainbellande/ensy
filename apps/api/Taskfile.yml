@@ -1,0 +1,37 @@
+version: '3'
+
+tasks:
+  gen:entity:
+    desc: generate new entity
+    cmds:
+      - pnpm exec hygen entity new
+
+  seed:create:
+    desc: create new seed
+    cmds:
+      - task: typeorm
+        vars:
+          args: seed:create -n src/database/seeds/{{ .name }}
+
+  exec:
+    desc: execute script via docker
+    cmds:
+      - docker compose exec api bash -c "cd apps/api && {{ .ARGS }}"
+
+  console:
+    desc: execute console
+    cmds:
+      # - docker compose exec api bash -c "cd apps/api && npm run console:dev -- {{ .ARGS }}"
+      - task: exec
+        vars:
+          ARGS: npm run console:dev -- {{ .ARGS }}
+
+  seeder:run:
+    desc: execute seeder
+    cmds:
+      - task: console
+        vars:
+          ARGS: db seeder:run
+
+
+

@@ -9,12 +9,16 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import type { Configuration } from '@/configuration';
 import { configuration, validationSchema } from '@/configuration';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
-import { UserModule } from '@/app/modules/user/user.module';
 import { LoggerModule } from 'nestjs-pino';
 import { pinoLoggerFactory } from '@/utils';
-import { ReferendumModule } from './modules/referendum/referendum.module';
 import { APP_GUARD } from '@nestjs/core';
 import { Auth0Guard } from '@/guards';
+import {
+  ReferendumVoteModule,
+  UserModule,
+  ReferendumModule,
+  CommandsModule,
+} from './modules';
 
 @Module({
   imports: [
@@ -28,6 +32,7 @@ import { Auth0Guard } from '@/guards';
       useFactory: pinoLoggerFactory,
       inject: [ConfigService],
     }),
+
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService<Configuration>) => ({
@@ -49,6 +54,8 @@ import { Auth0Guard } from '@/guards';
     }),
     UserModule,
     ReferendumModule,
+    ReferendumVoteModule,
+    CommandsModule,
   ],
   controllers: [AppController],
   providers: [

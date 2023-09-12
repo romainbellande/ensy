@@ -6,6 +6,9 @@ includes:
   client:
     taskfile: ./apps/client/Taskfile.yml
     dir: ./apps/client
+  api:
+    taskfile: ./apps/api/Taskfile.yml
+    dir: ./apps/api
 
 tasks:
   init:
