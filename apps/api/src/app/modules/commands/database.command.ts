@@ -1,8 +1,9 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
-import { Console, Command } from 'nestjs-console';
-import { FixturesService } from '@/app/modules/fixtures';
+import { Command, Console } from 'nestjs-console';
 import { DataSource } from 'typeorm';
+
+import { FixturesService } from '@/app/modules/fixtures';
 import { spinner } from '@/utils';
 
 @Console({ command: 'db' })

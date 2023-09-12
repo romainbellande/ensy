@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Injectable, Logger } from '@nestjs/common';
-import { DataSource } from 'typeorm';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { DepGraph } from 'dependency-graph';
-import { Seed } from './seed';
+import { DataSource } from 'typeorm';
+
 import { spinner } from '@/utils';
 
+import { Seed } from './seed';
 /** __Seeds_import__ */
 import { userSeed } from './seeds';
 

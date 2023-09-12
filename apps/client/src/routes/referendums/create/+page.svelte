@@ -1,18 +1,20 @@
 <script lang="ts">
-  import { createForm, getValue } from 'felte';
-  import { schema } from './schema';
-  import type { FormValues } from './schema';
-  import { validator } from '@felte/validator-yup';
   import { reporter } from '@felte/reporter-svelte';
-  import type { RadioItem, SelectOption } from 'ui';
-  import { Input, Button, Radio, Select } from 'ui';
+  import { validator } from '@felte/validator-yup';
+  import { createForm, getValue } from 'felte';
+  import slugify from 'slugify';
   import { _ } from 'svelte-i18n';
-  import { ReferendumAnswerKind, ReferendumParticipantsKind } from '@/lib/graphql/gql';
+  import type { RadioItem, SelectOption } from 'ui';
+  import { Button, Input, Radio, Select } from 'ui';
   import Icon from 'ui/components/Icon/Icon.svelte';
   import Textarea from 'ui/components/Textarea/Textarea.svelte';
-  import slugify from 'slugify';
+
   import { client } from '@/lib/graphql';
+  import { ReferendumAnswerKind, ReferendumParticipantsKind } from '@/lib/graphql/gql';
+
   import { formatter } from './formatter';
+  import type { FormValues } from './schema';
+  import { schema } from './schema';
 
   const pageBaseTrans = 'pages.referendums:create';
 

@@ -1,7 +1,9 @@
 import '../app.postcss';
 import '../i18n';
 import '@/lib/dayjs';
+
 import { waitLocale } from 'svelte-i18n';
+
 import { auth0Init } from '@/lib/auth0';
 import { client } from '@/lib/graphql';
 import { currentUser } from '@/lib/stores';

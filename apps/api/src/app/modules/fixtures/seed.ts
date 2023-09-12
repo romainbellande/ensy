@@ -1,5 +1,5 @@
-import { DataSource } from 'typeorm';
 import { times } from 'lodash';
+import { DataSource } from 'typeorm';
 
 interface SeedProps<T, R> {
   name: string;

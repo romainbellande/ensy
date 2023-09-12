@@ -1,13 +1,14 @@
-import { InputType, Field } from '@nestjs/graphql';
-import { ReferendumParticipantsKind } from './referendum-participants-kind.enum';
+import { Field, InputType } from '@nestjs/graphql';
 import {
-  IsNotEmpty,
+  IsDate,
   IsEnum,
+  IsNotEmpty,
   IsOptional,
   IsString,
-  IsDate,
 } from 'class-validator';
+
 import { ReferendumAnswerKind } from './referendum-answer-kind.enum';
+import { ReferendumParticipantsKind } from './referendum-participants-kind.enum';
 
 @InputType('CreateReferendum')
 export class ReferendumCreateDto {

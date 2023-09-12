@@ -1,21 +1,23 @@
-import { UserContext } from './../../app/modules/user/user.interfaces';
 import type { CanActivate, ExecutionContext } from '@nestjs/common';
 import {
   BadRequestException,
   ForbiddenException,
   Injectable,
 } from '@nestjs/common';
-import { JwksClient } from 'jwks-rsa';
 import { ConfigService } from '@nestjs/config';
-import type { AuthConfiguration, Configuration } from '@/configuration';
+import { Reflector } from '@nestjs/core';
+import { GqlExecutionContext } from '@nestjs/graphql';
 import type { IncomingHttpHeaders } from 'http';
 import type { VerifyOptions } from 'jsonwebtoken';
 import { verify } from 'jsonwebtoken';
+import { JwksClient } from 'jwks-rsa';
 import jwtDecode from 'jwt-decode';
-import type { JwtPayload } from '@/interfaces';
+
+import type { AuthConfiguration, Configuration } from '@/configuration';
 import { NO_AUTH_METADATA } from '@/decorators';
-import { Reflector } from '@nestjs/core';
-import { GqlExecutionContext } from '@nestjs/graphql';
+import type { JwtPayload } from '@/interfaces';
+
+import { UserContext } from './../../app/modules/user/user.interfaces';
 
 @Injectable()
 export class Auth0Guard implements CanActivate {

@@ -1,6 +1,7 @@
 <script lang="ts">
-  import RawInput from './RawInput.svelte';
   import { Label } from '../Label';
+  import RawInput from './RawInput.svelte';
+
   export let label: string | undefined = undefined;
   export let required = false;
   export let placeholder = '';

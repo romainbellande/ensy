@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { Icon } from 'ui';
-  import type { PageData } from './$types';
   import dayjs from 'dayjs';
-  import { Button, Link } from 'ui';
+  import { Button, Icon, Link } from 'ui';
+
+  import type { PageData } from './$types';
 
   export let data: PageData;
 </script>

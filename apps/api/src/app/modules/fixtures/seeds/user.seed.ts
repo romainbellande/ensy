@@ -1,4 +1,5 @@
 import { configuration } from '@/configuration';
+
 import { User } from '../../user';
 import { Seed } from '../seed';
 

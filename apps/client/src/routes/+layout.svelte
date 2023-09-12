@@ -1,6 +1,7 @@
 <script lang="ts">
-  import { Navbar, Sidenav, Breadcrumbs } from 'ui';
   import type { BreadcrumbItem } from 'ui';
+  import { Breadcrumbs, Navbar, Sidenav } from 'ui';
+
   import { page } from '$app/stores';
 
   $: pathname = $page.url.pathname;

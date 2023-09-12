@@ -1,10 +1,12 @@
-import { Entity, Column, JoinColumn, ManyToOne, Unique } from 'typeorm';
 import { Field, ObjectType } from '@nestjs/graphql';
-import { BaseEntity } from '@/utils';
-import { User } from '../user/user.entity';
-import { Referendum } from '../referendum';
-import { ReferendumVoteCreateDto } from './referendum-vote.create.dto';
 import { Relation } from '@ptc-org/nestjs-query-graphql';
+import { Column, Entity, JoinColumn, ManyToOne, Unique } from 'typeorm';
+
+import { BaseEntity } from '@/utils';
+
+import { Referendum } from '../referendum';
+import { User } from '../user/user.entity';
+import { ReferendumVoteCreateDto } from './referendum-vote.create.dto';
 
 @Entity('ReferendumVote')
 @ObjectType('ReferendumVote')

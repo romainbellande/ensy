@@ -1,4 +1,5 @@
 import * as yup from 'yup';
+
 import { ReferendumAnswerKind, ReferendumParticipantsKind } from '@/lib/graphql/gql';
 
 export const schema = yup.object({

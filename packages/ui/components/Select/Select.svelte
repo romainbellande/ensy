@@ -1,6 +1,8 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
+
   import type { SelectOption } from './select-option.interface';
+
   export let options: SelectOption[] = [];
   export let name: string;
 </script>

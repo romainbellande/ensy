@@ -3,14 +3,14 @@
  * This is only a minimal backend to get started.
  */
 
+import { ValidationPipe } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
+import { Logger, LoggerErrorInterceptor } from 'nestjs-pino';
 
 import { AppModule } from './app/app.module';
-import { ConfigService } from '@nestjs/config';
 import type { Configuration } from './configuration';
 import { configuration } from './configuration';
-import { Logger, LoggerErrorInterceptor } from 'nestjs-pino';
-import { ValidationPipe } from '@nestjs/common';
 import { Tracing } from './utils/tracing';
 
 async function bootstrap() {

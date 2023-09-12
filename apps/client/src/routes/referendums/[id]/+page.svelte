@@ -1,14 +1,17 @@
 <script lang="ts">
-  import { Progress, Radio, type RadioItem } from 'ui/components';
-  import type { PageData } from './$types';
+  import { reporter } from '@felte/reporter-svelte';
+  import { validator } from '@felte/validator-yup';
   import dayjs from 'dayjs';
+  import { createForm, getValue } from 'felte';
   import { _ } from 'svelte-i18n';
   import { Button, Icon } from 'ui';
+  import { Progress, Radio, type RadioItem } from 'ui/components';
+
   import { client } from '@/lib/graphql';
-  import { createForm, getValue } from 'felte';
-  import { schema, type FormValues } from './schema';
-  import { validator } from '@felte/validator-yup';
-  import { reporter } from '@felte/reporter-svelte';
+
+  import type { PageData } from './$types';
+  import { type FormValues, schema } from './schema';
+
   export let data: PageData;
   import { currentUser } from '@/lib/stores';
 
@@ -120,17 +123,19 @@
   {#if data.referendum.description}
     <p>{data.referendum.description}</p>
   {/if}
-  <form class="flex justify-between space-x-4 items-end" use:form>
-    {#if data.referendum.answers.length === 0}
-      <Radio class="max-w-max" name="agree" items={yesNoItems} />
-    {:else}
-      <Radio class="max-w-max" name="answer" items={answers} />
-    {/if}
-    <Button on:click={showConfirm}>
-      <span>{$_(`${pageBaseTrans}.vote`)}</span>
-      <Icon name="mail" />
-    </Button>
-  </form>
+  {#if !hasVoted}
+    <form class="flex justify-between space-x-4 items-end" use:form>
+      {#if data.referendum.answers.length === 0}
+        <Radio class="max-w-max" name="agree" items={yesNoItems} />
+      {:else}
+        <Radio class="max-w-max" name="answer" items={answers} />
+      {/if}
+      <Button on:click={showConfirm}>
+        <span>{$_(`${pageBaseTrans}.vote`)}</span>
+        <Icon name="mail" />
+      </Button>
+    </form>
+  {/if}
 </div>
 
 <dialog id="confirm-vote" class="modal">

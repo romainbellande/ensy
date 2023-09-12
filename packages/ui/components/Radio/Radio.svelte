@@ -1,6 +1,8 @@
 <script lang="ts">
-  import type { RadioItem } from './radio-item.interface';
   import { _ } from 'svelte-i18n';
+
+  import type { RadioItem } from './radio-item.interface';
+
   export let items: RadioItem[];
   export let name: string;
 </script>

@@ -1,5 +1,5 @@
+import { Field, GraphQLISODateTime, ID, ObjectType } from '@nestjs/graphql';
 import { IDField } from '@ptc-org/nestjs-query-graphql';
-import { GraphQLISODateTime, Field, ID, ObjectType } from '@nestjs/graphql';
 
 @ObjectType({ isAbstract: true })
 export abstract class BaseDto {

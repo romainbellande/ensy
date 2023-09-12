@@ -1,5 +1,6 @@
 <script lang="ts">
   import { ErrorTooltip } from '../ErrorTooltip';
+
   export let required = false;
   export let placeholder = '';
   export let name: string;

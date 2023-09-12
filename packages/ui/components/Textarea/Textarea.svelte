@@ -1,6 +1,7 @@
 <script lang="ts">
   import { ErrorTooltip } from '../ErrorTooltip';
   import { Label } from '../Label';
+
   export let label: string;
   export let required = false;
   export let placeholder = '';

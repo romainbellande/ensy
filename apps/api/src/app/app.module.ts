@@ -1,23 +1,25 @@
-import { Module } from '@nestjs/common';
-import { GraphQLModule } from '@nestjs/graphql';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import type { ApolloDriverConfig } from '@nestjs/apollo';
 import { ApolloDriver } from '@nestjs/apollo';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { APP_GUARD } from '@nestjs/core';
+import { GraphQLModule } from '@nestjs/graphql';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { LoggerModule } from 'nestjs-pino';
+
 import type { Configuration } from '@/configuration';
 import { configuration, validationSchema } from '@/configuration';
-import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
-import { LoggerModule } from 'nestjs-pino';
-import { pinoLoggerFactory } from '@/utils';
-import { APP_GUARD } from '@nestjs/core';
 import { Auth0Guard } from '@/guards';
+import { pinoLoggerFactory } from '@/utils';
+
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 import {
+  CommandsModule,
+  ReferendumModule,
   ReferendumVoteModule,
   UserModule,
-  ReferendumModule,
-  CommandsModule,
 } from './modules';
 
 @Module({

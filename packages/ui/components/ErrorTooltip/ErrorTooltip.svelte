@@ -2,6 +2,7 @@
   import { ValidationMessage } from '@felte/reporter-svelte';
   import { cn } from 'browser-toolkit';
   import { _ } from 'svelte-i18n';
+
   export let name: string;
 </script>
 

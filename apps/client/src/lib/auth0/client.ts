@@ -1,11 +1,12 @@
 import { Auth0Client } from '@auth0/auth0-spa-js';
-import {
-  PUBLIC_AUTH_DOMAIN,
-  PUBLIC_AUTH_CLIENT_ID,
-  PUBLIC_HOST,
-  PUBLIC_AUTH_AUDIENCE
-} from '$env/static/public';
 import { redirect } from '@sveltejs/kit';
+
+import {
+  PUBLIC_AUTH_AUDIENCE,
+  PUBLIC_AUTH_CLIENT_ID,
+  PUBLIC_AUTH_DOMAIN,
+  PUBLIC_HOST
+} from '$env/static/public';
 
 export const auth0 = new Auth0Client({
   domain: PUBLIC_AUTH_DOMAIN,

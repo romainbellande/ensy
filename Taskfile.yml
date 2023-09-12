@@ -34,3 +34,8 @@ tasks:
     desc: initialize traefik configuration
     cmds:
       - docker compose run envsubst sh -c "envsubst < /wd/traefik/config.example.yml > /wd/traefik/config.yml"
+
+  format:
+    desc: format apps and packages
+    cmds:
+      - pnpm exec turbo format -- --no-cache

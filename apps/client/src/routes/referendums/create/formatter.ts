@@ -1,6 +1,8 @@
-import type { CreateOneReferendumInput } from '@/lib/graphql/gql';
-import type { FormValues } from './schema';
 import { fromArrayValue } from 'browser-toolkit';
+
+import type { CreateOneReferendumInput } from '@/lib/graphql/gql';
+
+import type { FormValues } from './schema';
 
 export const formatter = ({
   answers,

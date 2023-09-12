@@ -1,5 +1,6 @@
-import { User } from './user.entity';
 import type { Request } from 'express';
+
+import { User } from './user.entity';
 
 export type AuthenticatedUser = Pick<User, 'externalId'>;
 

@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { BreadcrumbItem } from './breadcrumb-item.interface';
   import { default as AppBreadcrumbItem } from './BreadcrumbItem.svelte';
+
   export let items: BreadcrumbItem[] = [];
   export let home: BreadcrumbItem;
 </script>

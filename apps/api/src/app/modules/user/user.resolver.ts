@@ -1,9 +1,10 @@
-import { Query, Resolver } from '@nestjs/graphql';
-import { User } from './user.entity';
-import { AuthorizerInterceptor } from '@ptc-org/nestjs-query-graphql';
 import { NotFoundException, UseInterceptors } from '@nestjs/common';
+import { Query, Resolver } from '@nestjs/graphql';
 import { InjectQueryService, QueryService } from '@ptc-org/nestjs-query-core';
+import { AuthorizerInterceptor } from '@ptc-org/nestjs-query-graphql';
+
 import { CurrentUser } from './current-user.decorator';
+import { User } from './user.entity';
 import { AuthenticatedUser } from './user.interfaces';
 
 @Resolver(() => User)
