@@ -26,7 +26,9 @@ export const validationSchema = Joi.object({
   }),
   API_TRACING_ENABLED: Joi.boolean().default(false),
   API_HOST_URL: Joi.string().ip({ version: 'ipv4' }).default('0.0.0.0'),
-  API_AUTH_ISSUER: Joi.string().uri({ scheme: ['https'] }),
+  API_AUTH0_ISSUER: Joi.string().uri({ scheme: ['https'] }),
+  API_AUTH0_CLIENT_ID: Joi.string().required(),
+  API_AUTH0_CLIENT_SECRET: Joi.string().required(),
   API_SEEDS_USER_EMAIL: Joi.string().email().required(),
   API_SEEDS_USER_EXTERNAL_ID: Joi.string().required(),
 });
@@ -36,8 +38,10 @@ export interface TracingConfiguration {
   enabled: boolean;
 }
 
-export interface AuthConfiguration {
+export interface Auth0Configuration {
   issuer: string;
+  clientId: string;
+  clientSecret: string;
 }
 
 export interface UserSeed {
@@ -56,7 +60,7 @@ export interface Configuration {
   isProduction: boolean;
   logLevel: LogLevel;
   tracing: TracingConfiguration;
-  auth: AuthConfiguration;
+  auth0: Auth0Configuration;
   seeds: Seeds;
 }
 
@@ -70,8 +74,10 @@ export const configuration = (): Configuration => ({
     url: process.env.API_TRACING_URL,
     enabled: process.env.API_TRACING_ENABLED === 'true',
   },
-  auth: {
-    issuer: process.env.API_AUTH_ISSUER,
+  auth0: {
+    issuer: process.env.API_AUTH0_ISSUER,
+    clientId: process.env.API_AUTH0_CLIENT_ID,
+    clientSecret: process.env.API_AUTH0_CLIENT_SECRET,
   },
   seeds: {
     user: {

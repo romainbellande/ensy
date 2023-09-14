@@ -762,6 +762,8 @@ export type GetReferendumByIdQuery = {
     updatedAt: Date;
     votes: Array<{
       __typename?: 'ReferendumVote';
+      agree: boolean;
+      answer?: string | null;
       user: { __typename?: 'User'; id: string; externalId: string };
     }>;
   };
@@ -830,6 +832,8 @@ export const GetReferendumByIdDocument = gql`
       status
       updatedAt
       votes {
+        agree
+        answer
         user {
           id
           externalId

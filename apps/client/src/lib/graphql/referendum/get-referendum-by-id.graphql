@@ -17,6 +17,8 @@ query GetReferendumById($referendumId: ID!) {
     status
     updatedAt
     votes {
+      agree
+      answer
       user {
         id
         externalId

@@ -94,9 +94,7 @@
     });
   };
 
-  $: hasVoted = Boolean(
-    data.referendum.votes.find((vote) => vote.user.externalId === $currentUser.externalId)
-  );
+  $: vote = data.referendum.votes.find((vote) => vote.user.externalId === $currentUser.externalId);
 </script>
 
 <div class="space-y-8 max-w-max">
@@ -123,7 +121,7 @@
   {#if data.referendum.description}
     <p>{data.referendum.description}</p>
   {/if}
-  {#if !hasVoted}
+  {#if !vote}
     <form class="flex justify-between space-x-4 items-end" use:form>
       {#if data.referendum.answers.length === 0}
         <Radio class="max-w-max" name="agree" items={yesNoItems} />
@@ -135,6 +133,13 @@
         <Icon name="mail" />
       </Button>
     </form>
+  {:else}
+    <p class="flex space-x-4">
+      <span class="capitalize-first block">{$_(`${pageBaseTrans}.youVoted`)}:</span>
+      <span class="font-bold"
+        >{vote.answer || $_(`${pageBaseTrans}.${vote.agree ? 'yes' : 'no'}`)}</span
+      >
+    </p>
   {/if}
 </div>
 

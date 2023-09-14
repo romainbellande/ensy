@@ -31,7 +31,8 @@
       "yes": "yes",
       "no": "no",
       "vote": "vote",
-      "voteConfirmation": "vote confirmation"
+      "voteConfirmation": "vote confirmation",
+      "youVoted": "you voted"
     }
   },
   "common": {

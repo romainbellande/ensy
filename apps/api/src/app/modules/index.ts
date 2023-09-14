@@ -1,3 +1,4 @@
+export * from './auth0';
 export * from './commands';
 export * from './fixtures';
 export * from './referendum';

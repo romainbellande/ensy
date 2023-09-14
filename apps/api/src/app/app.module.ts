@@ -16,6 +16,7 @@ import { pinoLoggerFactory } from '@/utils';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import {
+  Auth0Module,
   CommandsModule,
   ReferendumModule,
   ReferendumVoteModule,
@@ -58,6 +59,7 @@ import {
     ReferendumModule,
     ReferendumVoteModule,
     CommandsModule,
+    Auth0Module,
   ],
   controllers: [AppController],
   providers: [

@@ -7,7 +7,7 @@ module.exports = {
     'prettier',
     'plugin:svelte/recommended'
   ],
-  plugins: ['@typescript-eslint', 'simple-import-sort', 'import'],
+  plugins: ['@typescript-eslint', 'simple-import-sort', 'import', 'unused-imports'],
   ignorePatterns: ['*.cjs'],
   overrides: [
     {
@@ -21,6 +21,7 @@ module.exports = {
     {
       files: ['*.svelte', '*.ts'],
       rules: {
+        'unused-imports/no-unused-imports': 'error',
         'simple-import-sort/imports': 'error',
         'simple-import-sort/exports': 'error',
         'import/first': 'error',

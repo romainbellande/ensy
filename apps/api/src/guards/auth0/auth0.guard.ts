@@ -13,7 +13,7 @@ import { verify } from 'jsonwebtoken';
 import { JwksClient } from 'jwks-rsa';
 import jwtDecode from 'jwt-decode';
 
-import type { AuthConfiguration, Configuration } from '@/configuration';
+import type { Auth0Configuration, Configuration } from '@/configuration';
 import { NO_AUTH_METADATA } from '@/decorators';
 import type { JwtPayload } from '@/interfaces';
 
@@ -27,7 +27,7 @@ export class Auth0Guard implements CanActivate {
     private configService: ConfigService<Configuration>,
     private reflector: Reflector,
   ) {
-    const { issuer } = this.configService.get<AuthConfiguration>('auth');
+    const { issuer } = this.configService.get<Auth0Configuration>('auth0');
     this.issuer = issuer;
   }
 
