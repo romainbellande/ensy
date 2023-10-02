@@ -1,10 +1,14 @@
 <script lang="ts">
   import dayjs from 'dayjs';
   import { Button, Icon, Link } from 'ui';
-
+  import type { FindReferendumsQuery } from '@/lib/graphql/gql';
   import type { PageData } from './$types';
 
   export let data: PageData;
+
+  let getStatus = (referendum: FindReferendumsQuery['referendums']['edges'][0]['node']) => {
+    return referendum.endDate < new Date() ? 'closed' : 'open';
+  }
 </script>
 
 <div>
@@ -25,7 +29,7 @@
           <th>vote</th>
           <th>status</th>
           <th>start date</th>
-          <th>end date</th>asasda
+          <th>end date</th>
           <th>actions</th>
         </tr>
       </thead>
@@ -35,7 +39,7 @@
           <tr>
             <td>{referendum.question}</td>
             <td>TODO: referendum vote result</td>
-            <td>closed</td>
+            <td>{ getStatus(referendum) }</td>
             <td>{dayjs(referendum.startDate).format('lll')}</td>
             <td>{dayjs(referendum.endDate).format('lll')}</td>
             <td class="flex space-x-4 items-center">

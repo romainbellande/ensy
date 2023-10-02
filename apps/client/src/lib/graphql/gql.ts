@@ -24,11 +24,40 @@ export type Scalars = {
   DateTime: { input: Date; output: Date };
 };
 
+export type AccessToken = {
+  __typename?: 'AccessToken';
+  access_token: Scalars['String']['output'];
+  token_type: Scalars['String']['output'];
+};
+
 export type AddVotesToReferendumInput = {
   /** The id of the record. */
   id: Scalars['ID']['input'];
   /** The ids of the relations. */
   relationIds: Array<Scalars['ID']['input']>;
+};
+
+export type Auth0Role = {
+  __typename?: 'Auth0Role';
+  description: Scalars['String']['output'];
+  id: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+};
+
+export type Auth0User = {
+  __typename?: 'Auth0User';
+  created_at: Scalars['String']['output'];
+  email: Scalars['String']['output'];
+  email_verified: Scalars['Boolean']['output'];
+  identities: Array<Identity>;
+  last_ip: Scalars['String']['output'];
+  last_login: Scalars['String']['output'];
+  logins_count: Scalars['Float']['output'];
+  name: Scalars['String']['output'];
+  nickname: Scalars['String']['output'];
+  picture: Scalars['String']['output'];
+  updated_at: Scalars['String']['output'];
+  user_id: Scalars['String']['output'];
 };
 
 export type CreateManyReferendumVotesInput = {
@@ -155,6 +184,14 @@ export type IdFilterComparison = {
   notLike?: InputMaybe<Scalars['ID']['input']>;
 };
 
+export type Identity = {
+  __typename?: 'Identity';
+  connection: Scalars['String']['output'];
+  isSocial: Scalars['Boolean']['output'];
+  provider: Scalars['String']['output'];
+  user_id: Scalars['String']['output'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   addVotesToReferendum: Referendum;
@@ -273,6 +310,9 @@ export type PageInfo = {
 
 export type Query = {
   __typename?: 'Query';
+  getRoles: Array<Auth0Role>;
+  getUsers: Array<Auth0User>;
+  login: AccessToken;
   me: User;
   referendum: Referendum;
   referendumVote: ReferendumVote;
@@ -280,6 +320,10 @@ export type Query = {
   referendums: ReferendumConnection;
   user: User;
   users: UserConnection;
+};
+
+export type QueryGetUsersArgs = {
+  query: Scalars['String']['input'];
 };
 
 export type QueryReferendumArgs = {
@@ -769,11 +813,27 @@ export type GetReferendumByIdQuery = {
   };
 };
 
+export type GetRolesQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetRolesQuery = {
+  __typename?: 'Query';
+  getRoles: Array<{ __typename?: 'Auth0Role'; name: string; description: string }>;
+};
+
 export type GetMeQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetMeQuery = {
   __typename?: 'Query';
   me: { __typename?: 'User'; id: string; externalId: string; email: string };
+};
+
+export type GetUsersQueryVariables = Exact<{
+  query: Scalars['String']['input'];
+}>;
+
+export type GetUsersQuery = {
+  __typename?: 'Query';
+  getUsers: Array<{ __typename?: 'Auth0User'; user_id: string; email: string }>;
 };
 
 export const CreateOneReferendumVoteDocument = gql`
@@ -842,11 +902,27 @@ export const GetReferendumByIdDocument = gql`
     }
   }
 `;
+export const GetRolesDocument = gql`
+  query GetRoles {
+    getRoles {
+      name
+      description
+    }
+  }
+`;
 export const GetMeDocument = gql`
   query GetMe {
     me {
       id
       externalId
+      email
+    }
+  }
+`;
+export const GetUsersDocument = gql`
+  query GetUsers($query: String!) {
+    getUsers(query: $query) {
+      user_id
       email
     }
   }
@@ -919,6 +995,20 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
         'query'
       );
     },
+    GetRoles(
+      variables?: GetRolesQueryVariables,
+      requestHeaders?: GraphQLClientRequestHeaders
+    ): Promise<GetRolesQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetRolesQuery>(GetRolesDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders
+          }),
+        'GetRoles',
+        'query'
+      );
+    },
     GetMe(
       variables?: GetMeQueryVariables,
       requestHeaders?: GraphQLClientRequestHeaders
@@ -930,6 +1020,20 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
             ...wrappedRequestHeaders
           }),
         'GetMe',
+        'query'
+      );
+    },
+    GetUsers(
+      variables: GetUsersQueryVariables,
+      requestHeaders?: GraphQLClientRequestHeaders
+    ): Promise<GetUsersQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetUsersQuery>(GetUsersDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders
+          }),
+        'GetUsers',
         'query'
       );
     }

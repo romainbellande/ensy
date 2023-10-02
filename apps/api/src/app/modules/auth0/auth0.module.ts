@@ -13,7 +13,7 @@ import { Auth0Service } from './auth0.service';
       useFactory: (configService: ConfigService<Configuration>) => {
         const { issuer } = configService.get<Auth0Configuration>('auth0');
         return {
-          baseURL: issuer,
+          baseURL: `${issuer}/api/v2`,
         };
       },
       inject: [ConfigService],

@@ -5,7 +5,7 @@ import { ConfigService } from '@nestjs/config';
 import { Configuration } from '@/configuration';
 
 import { Auth0BaseService } from './auth0-base.service';
-import { Auth0User } from './models';
+import { Auth0Role, Auth0User } from './models';
 
 @Injectable()
 export class Auth0Service extends Auth0BaseService {
@@ -16,8 +16,13 @@ export class Auth0Service extends Auth0BaseService {
     super(httpService, configService);
   }
 
-  async getUsers(): Promise<Auth0User[]> {
-    const { data } = await this.http.get<Auth0User[]>('/api/v2/users');
+  async getUsers(query: string): Promise<Auth0User[]> {
+    const { data } = await this.http.get<Auth0User[]>(`/users?q=${query}`);
+    return data;
+  }
+
+  async getRoles() {
+    const { data } = await this.http.get<Auth0Role[]>('/roles');
     return data;
   }
 }
