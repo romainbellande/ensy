@@ -1,6 +1,7 @@
 import { fromArrayValue } from 'browser-toolkit';
 
-import type { CreateOneReferendumInput, UpdateOneReferendumInput } from '@/lib/graphql/gql';
+import { Formatter } from '@/lib/form/formatter';
+import type { CreateOneReferendumInput } from '@/lib/graphql/gql';
 
 import type { FormValues } from './schema';
 
@@ -9,16 +10,12 @@ interface FormatterInput {
   id?: string;
 }
 
-export class Formatter {
-  formValues: FormValues;
-  id?: string;
-
-  constructor({ values, id }: FormatterInput) {
-    this.formValues = values;
-    this.id = id;
+export class ReferendumFormatter extends Formatter<FormValues, CreateOneReferendumInput, 'referendum'> {
+  constructor(formatterInput: FormatterInput) {
+    super({ ...formatterInput, referendumKey: 'referendum' })
   }
 
-  private formatValues() {
+  public formatValues() {
     const {
       answers,
       endDate,
@@ -37,28 +34,5 @@ export class Formatter {
       startDate: startDate ? new Date(startDate) : new Date()
     };
   }
-
-
-  public toCreateOneInput() {
-    const values = this.formatValues();
-
-    return this.inputWrapper<CreateOneReferendumInput>({
-      referendum: values
-    });
-  }
-
-  public toUpdateOneInput()  {
-    const values = this.formatValues();
-
-    return this.inputWrapper<UpdateOneReferendumInput>({
-      id: this.id!,
-      update: values,
-    })
-  }
-
-  private inputWrapper<T>(input: T) {
-    return {
-      input
-    }
-  }
 }
+

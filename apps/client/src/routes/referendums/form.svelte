@@ -14,7 +14,7 @@
   import type { GetReferendumByIdQuery } from '@/lib/graphql/gql';
   import { ReferendumAnswerKind, ReferendumParticipantsKind } from '@/lib/graphql/gql';
 
-  import { Formatter } from './formatter';
+  import { ReferendumFormatter } from './formatter';
   import type { FormValues } from './schema';
   import { schema } from './schema';
 
@@ -26,7 +26,7 @@
 
   const { form, data, addField, unsetField, errors, setFields } = createForm<FormValues>({
     onSubmit(values) {
-      const formatter = new Formatter({ values, id: referendum?.id })
+      const formatter = new ReferendumFormatter({ values, id: referendum?.id })
 
       if (referendum) {
         return client.UpdateOneReferendum(formatter.toUpdateOneInput());
