@@ -1,14 +1,19 @@
 <script lang="ts">
   import dayjs from 'dayjs';
   import { Button, Icon, Link } from 'ui';
-  import type { FindReferendumsQuery } from '@/lib/graphql/gql';
+
+  import { getMaxVotes, type Referendum } from '@/lib/referendum';
+
   import type { PageData } from './$types';
 
   export let data: PageData;
 
-  let getStatus = (referendum: FindReferendumsQuery['referendums']['edges'][0]['node']) => {
-    return referendum.endDate < new Date() ? 'closed' : 'open';
-  }
+  let getStatus = (referendum: Referendum) => {
+    return referendum.endDate < new Date() &&
+      (!referendum.startDate || referendum.startDate > new Date())
+      ? 'closed'
+      : 'open';
+  };
 </script>
 
 <div>
@@ -26,7 +31,8 @@
         <tr>
           <th />
           <th>question</th>
-          <th>vote</th>
+          <th>result</th>
+          <th>votes</th>
           <th>status</th>
           <th>start date</th>
           <th>end date</th>
@@ -38,15 +44,16 @@
         {#each data.referendums as referendum}
           <tr>
             <td>{referendum.question}</td>
-            <td>TODO: referendum vote result</td>
-            <td>{ getStatus(referendum) }</td>
+            <td>{referendum.finalVote || 'N/A'}</td>
+            <td>{referendum.votes.length} / {getMaxVotes(referendum, data.nbUsers)}</td>
+            <td>{getStatus(referendum)}</td>
             <td>{dayjs(referendum.startDate).format('lll')}</td>
             <td>{dayjs(referendum.endDate).format('lll')}</td>
             <td class="flex space-x-4 items-center">
               <Link href={`/referendums/${referendum.id}`}>
                 <Icon class="text-primary" name="eye" />
               </Link>
-              <Link href={`/referendums/${referendum.id}`}>
+              <Link href={`/referendums/${referendum.id}/edit`}>
                 <Icon class="text-secondary" name="edit" />
               </Link>
               <Button variant="btn-ghost">

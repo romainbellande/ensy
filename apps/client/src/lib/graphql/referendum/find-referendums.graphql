@@ -12,6 +12,14 @@ query FindReferendums {
         startDate
         slug
         status
+        participantsKind
+        participantsExternalIds
+        participantsRoles
+        finalVote
+        votes {
+          agree
+          answer
+        }
       }
     }
   }

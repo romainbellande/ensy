@@ -26,4 +26,10 @@ export class UserResolver {
 
     return results[0];
   }
+
+  @Query(() => Number)
+  async count() {
+    const users = await this.service.query({});
+    return users.length;
+  }
 }

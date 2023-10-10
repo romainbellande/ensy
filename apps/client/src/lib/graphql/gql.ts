@@ -310,6 +310,7 @@ export type PageInfo = {
 
 export type Query = {
   __typename?: 'Query';
+  count: Scalars['Float']['output'];
   getRoles: Array<Auth0Role>;
   getUsers: Array<Auth0User>;
   login: AccessToken;
@@ -775,6 +776,11 @@ export type FindReferendumsQuery = {
         startDate?: Date | null;
         slug: string;
         status: ReferendumStatus;
+        participantsKind?: ReferendumParticipantsKind | null;
+        participantsExternalIds: Array<string>;
+        participantsRoles: Array<string>;
+        finalVote?: string | null;
+        votes: Array<{ __typename?: 'ReferendumVote'; agree: boolean; answer?: string | null }>;
       };
     }>;
   };
@@ -813,12 +819,25 @@ export type GetReferendumByIdQuery = {
   };
 };
 
+export type UpdateOneReferendumMutationVariables = Exact<{
+  input: UpdateOneReferendumInput;
+}>;
+
+export type UpdateOneReferendumMutation = {
+  __typename?: 'Mutation';
+  updateOneReferendum: { __typename?: 'Referendum'; id: string };
+};
+
 export type GetRolesQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetRolesQuery = {
   __typename?: 'Query';
   getRoles: Array<{ __typename?: 'Auth0Role'; name: string; description: string }>;
 };
+
+export type CountUsersQueryVariables = Exact<{ [key: string]: never }>;
+
+export type CountUsersQuery = { __typename?: 'Query'; count: number };
 
 export type GetMeQueryVariables = Exact<{ [key: string]: never }>;
 
@@ -867,6 +886,14 @@ export const FindReferendumsDocument = gql`
           startDate
           slug
           status
+          participantsKind
+          participantsExternalIds
+          participantsRoles
+          finalVote
+          votes {
+            agree
+            answer
+          }
         }
       }
     }
@@ -902,12 +929,24 @@ export const GetReferendumByIdDocument = gql`
     }
   }
 `;
+export const UpdateOneReferendumDocument = gql`
+  mutation UpdateOneReferendum($input: UpdateOneReferendumInput!) {
+    updateOneReferendum(input: $input) {
+      id
+    }
+  }
+`;
 export const GetRolesDocument = gql`
   query GetRoles {
     getRoles {
       name
       description
     }
+  }
+`;
+export const CountUsersDocument = gql`
+  query CountUsers {
+    count
   }
 `;
 export const GetMeDocument = gql`
@@ -995,6 +1034,20 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
         'query'
       );
     },
+    UpdateOneReferendum(
+      variables: UpdateOneReferendumMutationVariables,
+      requestHeaders?: GraphQLClientRequestHeaders
+    ): Promise<UpdateOneReferendumMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<UpdateOneReferendumMutation>(UpdateOneReferendumDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders
+          }),
+        'UpdateOneReferendum',
+        'mutation'
+      );
+    },
     GetRoles(
       variables?: GetRolesQueryVariables,
       requestHeaders?: GraphQLClientRequestHeaders
@@ -1006,6 +1059,20 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
             ...wrappedRequestHeaders
           }),
         'GetRoles',
+        'query'
+      );
+    },
+    CountUsers(
+      variables?: CountUsersQueryVariables,
+      requestHeaders?: GraphQLClientRequestHeaders
+    ): Promise<CountUsersQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<CountUsersQuery>(CountUsersDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders
+          }),
+        'CountUsers',
         'query'
       );
     },
