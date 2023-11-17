@@ -15,6 +15,7 @@
 </script>
 
 <button
+  data-testid="button"
   type={type === 'modal' ? undefined : type}
   class={cn('btn capitalize-first', variant, { 'btn-outline': outline })}
   on:click><slot /></button

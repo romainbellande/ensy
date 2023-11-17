@@ -1,6 +1,6 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalEnv": ["API_*", "PUBLIC_*"],
+  "globalEnv": ["API_*", "PUBLIC_*", "VITEST"],
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],

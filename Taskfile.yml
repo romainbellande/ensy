@@ -16,8 +16,6 @@ tasks:
     cmds:
       - task: cert
       - task: traefik:init
-      - curl -fsSL https://moonrepo.dev/install/moon.sh | bash
-      - curl -fsSL https://moonrepo.dev/install/proto.sh | bash
 
   author:
     desc: display author

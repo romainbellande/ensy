@@ -8,12 +8,24 @@
   "license": "MIT",
   "scripts": {
     "lint": "prettier --check \"components/**/*.svelte\" --ignore-path=../../.prettierignore . && eslint \".\"",
-    "format": "prettier --write \"components/**/*.svelte\" --ignore-path=../../.prettierignore .&& eslint \".\" --fix"
+    "format": "prettier --write \"components/**/*.svelte\" --ignore-path=../../.prettierignore .&& eslint \".\" --fix",
+    "test": "vitest run",
+    "test:ui": "vitest --ui",
+    "test:watch": "vitest"
   },
   "devDependencies": {
+    "@sveltejs/kit": "^1.24.0",
+    "@sveltejs/vite-plugin-svelte": "^3.0.0",
+    "@testing-library/jest-dom": "^6.1.4",
+    "@testing-library/svelte": "^4.0.5",
     "@types/feather-icons": "^4.29.1",
+    "@vitest/ui": "^0.34.6",
     "eslint-config-custom": "workspace:*",
-    "svelte": "^4.2.0"
+    "jsdom": "^22.1.0",
+    "svelte": "^4.2.0",
+    "vite": "link:@sveltejs/kit/vite",
+    "vitest": "^0.34.6",
+    "vitest-dom": "^0.1.1"
   },
   "dependencies": {
     "@felte/reporter-svelte": "^1.1.11",
